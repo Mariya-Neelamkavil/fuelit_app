@@ -92,10 +92,9 @@ class SignUp extends StatelessWidget{
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    RaisedButton(
+                    ElevatedButton(
                       child: Text('SignUp'),
-
-                      color: Color(0xffEE7B23),
+                      style: ElevatedButton.styleFrom(primary: Color(0xffEE7B23)),
                       onPressed: (){},
                     ),
                   ],
@@ -198,9 +197,9 @@ class _SecondState extends State<Second> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Forget password?', style: TextStyle(fontSize: 12.0),),
-                    RaisedButton(
+                    ElevatedButton(
                       child: Text('Signup'),
-                      color: Color(0xffEE7B23),
+                      style: ElevatedButton.styleFrom(primary: Color(0xffEE7B23)),
                       onPressed: () {},
                     ),
                   ],
