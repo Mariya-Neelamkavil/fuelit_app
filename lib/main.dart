@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'LoginScreen.dart';
+import 'login/LoginScreen.dart';
 
 void main() {
   runApp(Fuelit());

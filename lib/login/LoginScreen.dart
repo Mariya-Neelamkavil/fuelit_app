@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'SignUp.dart';
-import 'LoginScreen.dart';
+import 'ForgetPassword.dart';
+import 'package:fuelit_app/login/SignUp.dart';
+import 'package:fuelit_app/userhome/homepage.dart';
 
-class ForgetPassword extends StatelessWidget {
-  const ForgetPassword({Key? key}) : super(key: key);
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double width=MediaQuery.of(context).size.width;
     double height=MediaQuery.of(context).size.height;
     return Scaffold(
-      body:Container(
+      body: Container(
         height: height,
         width: width,
         child: SingleChildScrollView(
@@ -23,20 +24,18 @@ class ForgetPassword extends StatelessWidget {
                 child: Image.asset('assets/logo.png',fit: BoxFit.fill,),
               ),
               Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text('Forgot Password',
-                      style: TextStyle(fontSize: 25.0,fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,)
+                    Text('Login',style: TextStyle(fontSize: 25.0,fontWeight: FontWeight.bold),),
                   ],
                 ),
               ),
               SizedBox(height: 30.0,),
               TextField(
                 decoration: InputDecoration(
-                  hintText: 'Email id',
+                  hintText: 'Email',
                   suffixIcon: Icon(Icons.email),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20.0),
@@ -47,8 +46,8 @@ class ForgetPassword extends StatelessWidget {
               TextField(
                 obscureText: true,
                 decoration: InputDecoration(
-                  hintText: 'Mobile no',
-                  suffixIcon: Icon(Icons.phone),
+                  hintText: 'Password',
+                  suffixIcon: Icon(Icons.visibility_off),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20.0),
                   ),
@@ -58,13 +57,26 @@ class ForgetPassword extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgetPassword()));
+                      },
+                      child: Text.rich(
+                        TextSpan(
+                            text: 'Forgot Password'
+                        ),
+                      ),
+                    ),
                     ElevatedButton(
-                      child: Text('Next'),
-                      style: ElevatedButton.styleFrom(primary: Color(0xffEE7B23)),
+                      child: Text('Login'),
+                      style: ElevatedButton.styleFrom(backgroundColor: Color(0xffEE7B23)),
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ValidateOTP()));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => homepage()),
+                        );
                       },
                     ),
                   ],
@@ -99,11 +111,23 @@ class ForgetPassword extends StatelessWidget {
   }
 }
 
-class ValidateOTP extends StatelessWidget{
+
+class Second extends StatefulWidget {
+  @override
+  _SecondState createState() => _SecondState();
+}
+
+class _SecondState extends State<Second> {
   @override
   Widget build(BuildContext context) {
-    double width=MediaQuery.of(context).size.width;
-    double height=MediaQuery.of(context).size.height;
+    double width = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double height = MediaQuery
+        .of(context)
+        .size
+        .height;
     return Scaffold(
       body: Container(
         height: height,
@@ -112,51 +136,25 @@ class ValidateOTP extends StatelessWidget{
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-
-              SizedBox(height:20.0),
+              Container(
+                width: width,
+                height: height * 0.45,
+                child: Image.asset('assets/play.png', fit: BoxFit.fill,),
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text('OTP',style: TextStyle(fontSize: 25.0,fontWeight: FontWeight.bold),textAlign: TextAlign.justify,),
+                    Text('Signup', style: TextStyle(
+                        fontSize: 25.0, fontWeight: FontWeight.bold),),
                   ],
                 ),
               ),
-
-
               SizedBox(height: 30.0,),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text('email from previous page',textAlign: TextAlign.justify,),
-                  ],
-                ),
-              ),
               TextField(
                 decoration: InputDecoration(
-                  hintText: 'Enter E-mail OTP',
-                  suffixIcon: Icon(Icons.account_circle),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20.0,),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text('mobile number from previous page',textAlign: TextAlign.justify,),
-                  ],
-                ),
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  hintText: 'Enter Mobile OTP',
+                  hintText: 'Email',
                   suffixIcon: Icon(Icons.email),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20.0),
@@ -164,22 +162,10 @@ class ValidateOTP extends StatelessWidget{
                 ),
               ),
               SizedBox(height: 20.0,),
-
               TextField(
                 obscureText: true,
                 decoration: InputDecoration(
-                  hintText: 'New Password',
-                  suffixIcon: Icon(Icons.visibility_off),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20.0,),
-              TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: 'Confirm Password',
+                  hintText: 'Password',
                   suffixIcon: Icon(Icons.visibility_off),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20.0),
@@ -192,27 +178,27 @@ class ValidateOTP extends StatelessWidget{
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Center(
-                      child: ElevatedButton(
-                        child: Text('Reset Password'),
-                        style: ElevatedButton.styleFrom(primary: Color(0xffEE7B23)),
-                        onPressed: (){},
-                      ),
-                    )
+                    Text('Forget password?', style: TextStyle(fontSize: 12.0),),
+                    ElevatedButton(
+                      child: Text('Signup'),
+                      style: ElevatedButton.styleFrom(backgroundColor: Color(0xffEE7B23)),
+                      onPressed: () {},
+                    ),
                   ],
                 ),
               ),
-              SizedBox(height:20.0),
+              SizedBox(height: 20.0),
               GestureDetector(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()));
                 },
                 child: Text.rich(
                   TextSpan(
                       text: 'Already have an account',
                       children: [
                         TextSpan(
-                          text: 'Login',
+                          text: 'Signin',
                           style: TextStyle(
                               color: Color(0xffEE7B23)
                           ),
