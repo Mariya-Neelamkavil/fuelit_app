@@ -24,26 +24,24 @@ class Splashscreen extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
+
 class _MyHomePageState extends State<Splashscreen> {
   @override
   void initState() {
     super.initState();
     Timer(
-        Duration(seconds:3),
-            ()=>Navigator.pushReplacement(context,
-            MaterialPageRoute(builder:
-                (context) =>
-                LoginScreen()
-            )
-        )
-    );
+        Duration(seconds: 3),
+        () => Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => LoginScreen())));
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: initScreen(context),
     );
   }
+
   initScreen(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
@@ -52,15 +50,10 @@ class _MyHomePageState extends State<Splashscreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Image.asset('assets/fuelit_logo.png'),
-            const Padding(
-                padding: EdgeInsets.only(top: 20.0)
-            ),
+            const Padding(padding: EdgeInsets.only(top: 20.0)),
             const Text(
               "FUELiT",
-              style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.indigoAccent
-              ),
+              style: TextStyle(fontSize: 20.0, color: Colors.indigoAccent),
             ),
             const Padding(padding: EdgeInsets.only(top: 20.0)),
             const CircularProgressIndicator(
