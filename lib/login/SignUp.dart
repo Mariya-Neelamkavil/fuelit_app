@@ -285,11 +285,11 @@ class UserAdd extends StatelessWidget
   String phpurl="http://192.168.122.213/write_new.php";
   Future sendData() async
   {
-    String name = namectl.text;
-    var Data={ 'name' : name};
+    //var name = namectl.text;
+    //var Data={ 'name' : name};
     var res=await http.post(Uri.parse(phpurl),body: {
       "name": namectl.text.toString(),
-    };
+    });
     var message = jsonDecode(res.body);
 
     if (message == "true") {
