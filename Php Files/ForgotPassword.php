@@ -11,9 +11,10 @@ die("Connection Failed: " . $conn->connect_error);
 return;
 }
 
-$name=$_POST['name'];
+$dbemail=$_POST['dbemail'];
+$dbmobile=$_POST['dbmobile'];
 $sql = "INSERT INTO registration (Name,Mobile_no,Email_ID,User_Name,Password)
-VALUES ('$name','898877679','nehdhjfeesd@gmail.com','hvg67','jhghg123')";
+VALUES ('$dbfname','$dbmobile','$dbemail','$dbuname','$dbpass')";
 
 if ($conn->query($sql) === TRUE) {
   echo "New record created successfully";

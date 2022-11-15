@@ -1,10 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:fuelit_app/login//LoginScreen.dart';
 import 'package:http/http.dart' as http;
 
-TextEditingController namectl=TextEditingController();
+// TextEditingController name=TextEditingController();
 
 
 class SignUp extends StatelessWidget{
@@ -32,16 +31,18 @@ class WriteSQLdata extends StatefulWidget{
 
 class WriteSQLdataState extends State<WriteSQLdata>{
 
-  TextEditingController namectl = TextEditingController();
-  // TextEditingController addressctl = TextEditingController();
-  // Textl̥EditingController classctl = TextEditingController();
-  // TextEditingController rollnoctl = TextEditingController();
-  //text controller for TextField
+  TextEditingController fname = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController mobile  = TextEditingController();
+  TextEditingController uname = TextEditingController();
+  TextEditingController pass  = TextEditingController();
+  TextEditingController pass_conf  = TextEditingController();
+  // text controller for TextField
 
   late bool error, sending, success;
   late String msg;
 
-  String phpurl = "http://192.168.174.25/write_new.php";
+  String phpurl = "http://192.168.174.25/SignUp.php";
   // do not use http://localhost/ for your local
   // machine, Android emulation do not recognize localhost
   // insted use your local ip address or your live URL
@@ -59,10 +60,11 @@ class WriteSQLdataState extends State<WriteSQLdata>{
   Future<void> sendData() async {
 
      var res = await http.post(Uri.parse(phpurl), body: { 
-          "name": namectl.text,
-          // "address": addressctl.text,
-          // "class": classctl.text,
-          // "rollno": rollnoctl.text,
+          "dbfname": fname.text,
+          "dbemail": email.text,
+          "dbmobile": mobile.text,
+          "dbuname": uname.text,
+          "dbpass": pass.text,
       }); //sending post request with header data
 
      if (res.statusCode == 200) {
@@ -76,10 +78,11 @@ class WriteSQLdataState extends State<WriteSQLdata>{
           });
        }else{
          
-         namectl.text = "";
-        //  addressctl.text = "";
-        //  classctl.text = "";
-        //  rollnoctl.text = "";
+         fname.text = "";
+         email.text = "";
+         mobile.text = "";
+         uname.text = "";
+         pass.text = "";
          //after write success, make fields empty
 
           setState(() {
@@ -139,7 +142,7 @@ class WriteSQLdataState extends State<WriteSQLdata>{
               SizedBox(
                 width: 300,
                 child: TextField(
-                  controller: namectl,
+                  controller: fname,
                   decoration: InputDecoration(
                     hintText: 'Full name',
                     suffixIcon: Icon(Icons.account_circle),
@@ -153,6 +156,7 @@ class WriteSQLdataState extends State<WriteSQLdata>{
               SizedBox(
                 width: 300,
                 child: TextField(
+                  controller: email,
                   decoration: InputDecoration(
                     hintText: 'Email',
                     suffixIcon: Icon(Icons.email),
@@ -166,6 +170,7 @@ class WriteSQLdataState extends State<WriteSQLdata>{
               SizedBox(
                 width: 300,
                 child: TextField(
+                  controller: mobile,
                   decoration: InputDecoration(
                     hintText: 'Mobile no',
                     suffixIcon: Icon(Icons.phone),
@@ -179,6 +184,7 @@ class WriteSQLdataState extends State<WriteSQLdata>{
               SizedBox(
                 width: 300,
                 child: TextField(
+                  controller: uname,
                   decoration: InputDecoration(
                     hintText: 'Username',
                     suffixIcon: Icon(Icons.account_circle_rounded),
@@ -192,6 +198,7 @@ class WriteSQLdataState extends State<WriteSQLdata>{
               SizedBox(
                 width: 300,
                 child: TextField(
+                  controller: pass,
                   obscureText: true,
                   decoration: InputDecoration(
                     hintText: 'Password',
@@ -206,6 +213,7 @@ class WriteSQLdataState extends State<WriteSQLdata>{
               SizedBox(
                 width: 300,
                 child: TextField(
+                  controller: pass_conf,
                   obscureText: true,
                   decoration: InputDecoration(
                     hintText: 'Confirm Password',
