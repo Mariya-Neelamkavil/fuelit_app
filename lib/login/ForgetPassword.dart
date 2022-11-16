@@ -185,7 +185,12 @@ class WriteSQLdataState extends State<WriteSQLdata>{
                         child: Text('Next'),
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Color(0xffEE7B23)),
-                        onPressed: () {
+                        onPressed: () { //if button is pressed, setstate sending = true, so that we can show "sending..."
+                          setState(() {
+                             sending = true;
+                          });
+                          sendData();
+                          
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => ValidateOTP()));
                         },
