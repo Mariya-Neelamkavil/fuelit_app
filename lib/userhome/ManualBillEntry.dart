@@ -37,7 +37,7 @@ class WriteSQLdataState extends State<WriteSQLdata>{
   late bool error, sending, success;
   late String msg;
 
-  String phpurl = "http://192.168.174.25/SignUp.php";
+  String phpurl = "http://192.168.1.73/ManualBillEntry.php";
   // do not use http://localhost/ for your local
   // machine, Android emulation do not recognize localhost
   // insted use your local ip address or your live URL

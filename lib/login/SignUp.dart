@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:fuelit_app/login//LoginScreen.dart';
 import 'package:http/http.dart' as http;
 
-// TextEditingController name=TextEditingController();
 
 
 class SignUp extends StatelessWidget{

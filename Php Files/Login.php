@@ -13,8 +13,7 @@ return;
 
 $dbemail=$_POST['dbemail'];
 $dbpass=$_POST['dbpass'];
-$sql = "INSERT INTO registration (Name,Mobile_no,Email_ID,User_Name,Password)
-VALUES ('$dbfname','$dbmobile','$dbemail','$dbuname','$dbpass')";
+$sql = "select * from registration";
 
 if ($conn->query($sql) === TRUE) {
   echo "New record created successfully";

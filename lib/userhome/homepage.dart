@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fuelit_app/userhome/ScanPage.dart';
 import 'ManualBillEntry.dart';
+import 'test2.dart';
 
 class homepage extends StatelessWidget {
   @override
@@ -45,7 +47,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
             margin: EdgeInsets.zero,
             alignment: Alignment.center,
             child: OutlinedButton(
-              child: Text("Total usage",
+              child: Text("TEst",
                   style: TextStyle(fontSize: 20.0, color: Colors.white)),
               style: OutlinedButton.styleFrom(
                 shape: CircleBorder(),
@@ -56,7 +58,12 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
               //highlightedBorderColor: Colors.red,
               //shape:const RoundedRectangleBorder(
               //  borderRadius: BorderRadius.circular(15)
-              onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => test2()),
+                  );
+                }
             ),
           ),
           SizedBox(
@@ -82,7 +89,12 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                 //highlightedBorderColor: Colors.red,
                 //shape:const RoundedRectangleBorder(
                 //  borderRadius: BorderRadius.circular(15)
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => homepage()),
+                  );
+                },
               ),
             ),
             Container(
