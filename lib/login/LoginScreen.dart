@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dart_ipify/dart_ipify.dart';
 import 'package:flutter/material.dart';
 import 'ForgetPassword.dart';
 import 'package:fuelit_app/login/SignUp.dart';
@@ -35,64 +36,125 @@ class WriteSQLdataState extends State<WriteSQLdata>{
   TextEditingController pass  = TextEditingController();
   // text controller for TextField
 
-  late bool error, sending, success;
-  late String msg;
+  late bool error, sending, success, showprogress;
+  late String msg, errormsg;
+  // late String username, password;
 
-  String phpurl = "http://192.168.174.25/Login.php";
-  // do not use http://localhost/ for your local
-  // machine, Android emulation do not recognize localhost
-  // insted use your local ip address or your live URL
-  // hit "ipconfig" on Windows or  "ip a" on Linux to get IP Address
 
-  @override
+
+  // @override
+  // void initState() {
+  //     error = false;
+  //     sending = false;
+  //     success = false;
+  //     msg = "";
+  //     super.initState();
+  // }
+
   void initState() {
-      error = false;
-      sending = false;
-      success = false;
-      msg = "";
-      super.initState();
+    //  username= "";
+    //  password= "";
+     errormsg = "";
+     error = false;
+     showprogress = false;
+
+     //_username.text = "defaulttext";
+     //_password.text = "defaultpassword";
+    super.initState();
   }
 
-  Future<void> sendData() async {
+  
+// Future<void> sendData() async {
+    
+    
+//   final ipv4 = await Ipify.ipv4();
+//   String phpurl = "http://"+ipv4+"/ManualBillEntry.php";
 
-     var res = await http.post(Uri.parse(phpurl), body: { 
-          "dbemail": email.text,
-          "dbpass": pass.text,
-      }); //sending post request with header data
+//      var res = await http.post(Uri.parse(phpurl), body: { 
+//           "dbemail": email.text,
+//           "dbpass": pass.text,
+//       }); //sending post request with header data
 
-     if (res.statusCode == 200) {
-       print("RES.BODY:::" + res.body); //print raw response on console
-       var data = json.decode(res.body); //decoding json to array
-       if(data["error"]){
-          setState(() { //refresh the UI when error is received from server
-             sending = false;
-             error = true;
-             msg = data["message"]; //error message from server
-          });
-       }else{
+//      if (res.statusCode == 200) {
+//        print("RES.BODY:::" + res.body); //print raw response on console
+//        var data = json.decode(res.body); //decoding json to array
+//        if(data["error"]){
+//           setState(() { //refresh the UI when error is received from server
+//              sending = false;
+//              error = true;
+//              msg = data["message"]; //error message from server
+//           });
+//        }else{
          
-         email.text = "";
-         pass.text = "";
-         //after write success, make fields empty
+//          email.text = "";
+//          pass.text = "";
+//          //after write success, make fields empty
 
-          setState(() {
-             sending = false;
-             success = true; //mark success and refresh UI with setState
-          });
-       }
+//           setState(() {
+//              sending = false;
+//              success = true; //mark success and refresh UI with setState
+//           });
+//        }
        
-    }else{
-       //there is error
+//     }else{
+//        //there is error
+//         setState(() {
+//             error = true;
+//             msg = "Error during sending data.";
+//             sending = false;
+//             //mark error and refresh UI with setState
+//         });
+//     }
+//   }
+
+
+  startLogin() async {
+    
+    
+  final ipv4 = await Ipify.ipv4();
+  String phpurl = "http://"+ipv4+"/ManualBillEntry.php"; // url
+  
+     print(email);
+
+     var response = await http.post(Uri.parse(phpurl), body: {
+        'dbemail': email.text, //get the username text
+        'dbpass': pass.text  //get password text
+     });
+       
+     if(response.statusCode == 200){
+         var jsondata = json.decode(response.body);
+         if(jsondata["error"]){
+             setState(() {
+                 showprogress = false; //don't show progress indicator
+                 error = true;
+                 errormsg = jsondata["message"];
+             });
+         }else{
+            if(jsondata["success"]){
+               setState(() {
+                  error = false;
+                  showprogress = false;
+               });
+               //save the data returned from server
+               //and navigate to home page
+               String uid = jsondata["uid"];
+               String name = jsondata["Name"];
+               print(name);
+               //user shared preference to save data
+            }else{
+               showprogress = false; //don't show progress indicator
+               error = true;
+               errormsg = "Something went wrong.";
+            }  
+         }
+     }else{
         setState(() {
-            error = true;
-            msg = "Error during sending data.";
-            sending = false;
-            //mark error and refresh UI with setState
+           showprogress = false; //don't show progress indicator
+           error = true;
+           errormsg = "Error during connecting to server.";
         });
-    }
+     }
   }
-
-
 
 
 
@@ -149,6 +211,7 @@ class WriteSQLdataState extends State<WriteSQLdata>{
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       ),
+                      
                     ),
                   )),
               SizedBox(
@@ -201,7 +264,7 @@ class WriteSQLdataState extends State<WriteSQLdata>{
                           setState(() {
                              sending = true;
                           });
-                          sendData();
+                          startLogin();
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => homepage()),

@@ -3,13 +3,13 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "fuelit";
-$table = "registration"; // lets create a table named Employees.
+$table = "registration"; 
 $conn = new mysqli($servername, $username, $password, $dbname);
  // Check Connection
-if($conn->connect_error){
-die("Connection Failed: " . $conn->connect_error);
-return;
-}
+// if($conn->connect_error){
+// die("Connection Failed: " . $conn->connect_error);
+// return;
+// }
 
 $dbemail=$_POST['dbemail'];
 $dbpass=$_POST['dbpass'];
@@ -46,7 +46,7 @@ $conn->close();
        $username = mysqli_real_escape_string($link, $username);
        //escape inverted comma query conflict from string
 
-       $sql = "SELECT * FROM registration WHERE username = '$username'";
+       $sql = "SELECT * FROM registration WHERE username = '$username' and password = '$dbpass'";
        //building SQL query
        $res = mysqli_query($link, $sql);
        $numrows = mysqli_num_rows($res);
@@ -58,8 +58,7 @@ $conn->close();
            if(md5($password) == $obj->password){
                $return["success"] = true;
                $return["uid"] = $obj->user_id;
-               $return["fullname"] = $obj->fullname;
-               $return["address"] = $obj->address;
+               $return["name"] = $obj->Name;
            }else{
                $return["error"] = true;
                $return["message"] = "Your Password is Incorrect.";

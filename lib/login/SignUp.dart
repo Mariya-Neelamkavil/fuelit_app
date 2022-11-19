@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dart_ipify/dart_ipify.dart';
 import 'package:flutter/material.dart';
 import 'package:fuelit_app/login//LoginScreen.dart';
 import 'package:http/http.dart' as http;
@@ -41,7 +42,6 @@ class WriteSQLdataState extends State<WriteSQLdata>{
   late bool error, sending, success;
   late String msg;
 
-  String phpurl = "http://192.168.174.25/SignUp.php";
   // do not use http://localhost/ for your local
   // machine, Android emulation do not recognize localhost
   // insted use your local ip address or your live URL
@@ -57,6 +57,10 @@ class WriteSQLdataState extends State<WriteSQLdata>{
   }
 
   Future<void> sendData() async {
+
+      
+  final ipv4 = await Ipify.ipv4();
+  String phpurl = "http://"+ipv4+"/ManualBillEntry.php";
 
      var res = await http.post(Uri.parse(phpurl), body: { 
           "dbfname": fname.text,
