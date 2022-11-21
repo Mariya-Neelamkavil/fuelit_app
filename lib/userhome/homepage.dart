@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fuelit_app/userhome/ScanPage.dart';
 import 'ManualBillEntry.dart';
-import 'test2.dart';
+import 'TransactionTable.dart';
 
 class homepage extends StatelessWidget {
   @override
@@ -25,8 +25,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   static const List<Widget> _widgetOptions = <Widget>[
     Text('Home', style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
     Text('Search', style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
-    Text('Profile',
-        style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
+    Text('Profile', style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
   ];
 
   void _onItemTapped(int index) {
@@ -47,7 +46,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
             margin: EdgeInsets.zero,
             alignment: Alignment.center,
             child: OutlinedButton(
-              child: Text("TEst",
+              child: Text("Test",
                   style: TextStyle(fontSize: 20.0, color: Colors.white)),
               style: OutlinedButton.styleFrom(
                 shape: CircleBorder(),
@@ -61,7 +60,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => test2()),
+                    MaterialPageRoute(builder: (context) => TransactionTable()),
                   );
                 }
             ),

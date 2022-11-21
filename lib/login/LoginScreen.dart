@@ -1,162 +1,107 @@
 import 'dart:convert';
-import 'package:dart_ipify/dart_ipify.dart';
 import 'package:flutter/material.dart';
 import 'ForgetPassword.dart';
 import 'package:fuelit_app/login/SignUp.dart';
 import 'package:fuelit_app/userhome/homepage.dart';
 import 'package:http/http.dart' as http;
 
+var ip = "192.168.52.25";
+
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-         theme: ThemeData(
-            primarySwatch:Colors.red, //primary color for theme
-         ),
-         home: WriteSQLdata() //set the class here
-    );
+    return MaterialApp(
+        theme: ThemeData(
+          primarySwatch: Colors.red, //primary color for theme
+        ),
+        home: WriteSQLdata() //set the class here
+        );
   }
 }
 
 ////////////////////////////////////////////////
 ///////////////////////////////////////////////
 
-class WriteSQLdata extends StatefulWidget{
+class WriteSQLdata extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-     return WriteSQLdataState();
+    return WriteSQLdataState();
   }
 }
 
-
-class WriteSQLdataState extends State<WriteSQLdata>{
-
+class WriteSQLdataState extends State<WriteSQLdata> {
   TextEditingController email = TextEditingController();
-  TextEditingController pass  = TextEditingController();
+  TextEditingController pass = TextEditingController();
+
   // text controller for TextField
 
   late bool error, sending, success, showprogress;
   late String msg, errormsg;
-  // late String username, password;
 
 
-
-  // @override
-  // void initState() {
-  //     error = false;
-  //     sending = false;
-  //     success = false;
-  //     msg = "";
-  //     super.initState();
-  // }
 
   void initState() {
-    //  username= "";
-    //  password= "";
-     errormsg = "";
-     error = false;
-     showprogress = false;
 
-     //_username.text = "defaulttext";
-     //_password.text = "defaultpassword";
+    errormsg = "";
+    error = false;
+    showprogress = false;
+
     super.initState();
   }
 
-  
-// Future<void> sendData() async {
-    
-    
-//   final ipv4 = await Ipify.ipv4();
-//   String phpurl = "http://"+ipv4+"/ManualBillEntry.php";
-
-//      var res = await http.post(Uri.parse(phpurl), body: { 
-//           "dbemail": email.text,
-//           "dbpass": pass.text,
-//       }); //sending post request with header data
-
-//      if (res.statusCode == 200) {
-//        print("RES.BODY:::" + res.body); //print raw response on console
-//        var data = json.decode(res.body); //decoding json to array
-//        if(data["error"]){
-//           setState(() { //refresh the UI when error is received from server
-//              sending = false;
-//              error = true;
-//              msg = data["message"]; //error message from server
-//           });
-//        }else{
-         
-//          email.text = "";
-//          pass.text = "";
-//          //after write success, make fields empty
-
-//           setState(() {
-//              sending = false;
-//              success = true; //mark success and refresh UI with setState
-//           });
-//        }
-       
-//     }else{
-//        //there is error
-//         setState(() {
-//             error = true;
-//             msg = "Error during sending data.";
-//             sending = false;
-//             //mark error and refresh UI with setState
-//         });
-//     }
-//   }
-
 
   startLogin() async {
-    
-    
-  final ipv4 = await Ipify.ipv4();
-  String phpurl = "http://"+ipv4+"/ManualBillEntry.php"; // url
-  
-     print(email);
+    String phpurl = "http://$ip/fuelit/Login.php"; // url
 
-     var response = await http.post(Uri.parse(phpurl), body: {
-        'dbemail': email.text, //get the username text
-        'dbpass': pass.text  //get password text
-     });
-       
-     if(response.statusCode == 200){
-         var jsondata = json.decode(response.body);
-         if(jsondata["error"]){
-             setState(() {
-                 showprogress = false; //don't show progress indicator
-                 error = true;
-                 errormsg = jsondata["message"];
-             });
-         }else{
-            if(jsondata["success"]){
-               setState(() {
-                  error = false;
-                  showprogress = false;
-               });
-               //save the data returned from server
-               //and navigate to home page
-               String uid = jsondata["uid"];
-               String name = jsondata["Name"];
-               print(name);
-               //user shared preference to save data
-            }else{
-               showprogress = false; //don't show progress indicator
-               error = true;
-               errormsg = "Something went wrong.";
-            }  
-         }
-     }else{
+
+    var response = await http.post(Uri.parse(phpurl), body: {
+      'dbemail': email.text, //get the username text
+      'dbpass': pass.text //get password text
+    });
+
+    if (response.statusCode == 200) {
+
+      print(json.decode(response.body));
+      var jsondata = json.decode(response.body);
+      if (jsondata["error"]) {
         setState(() {
-           showprogress = false; //don't show progress indicator
-           error = true;
-           errormsg = "Error during connecting to server.";
+          showprogress = false; //don't show progress indicator
+          error = true;
+          errormsg = jsondata["message"];
         });
-     }
+      } else {
+        if (jsondata["success"]) {
+          setState(() {
+            error = false;
+            showprogress = false;
+          });
+          //save the data returned from server
+          //and navigate to home page
+          String uid = jsondata["uid"];
+          String name = jsondata["name"];
+          print(name);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => homepage()),
+          );
+          //user shared preference to save data
+        } else {
+          showprogress = false; //don't show progress indicator
+          error = true;
+          errormsg = "Something went wrong.";
+        }
+      }
+    } else {
+      print("Status code !=200");
+      setState(() {
+        showprogress = false; //don't show progress indicator
+        error = true;
+        errormsg = "Error during connecting to server.";
+      });
+    }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -188,12 +133,12 @@ class WriteSQLdataState extends State<WriteSQLdata>{
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Login',
+                          errormsg,
                           style: TextStyle(
-                              fontSize: 17.0, fontWeight: FontWeight.bold),
+                              fontSize: 15.0, fontWeight: FontWeight.bold, color: Colors.red),
                         ),
                       ],
                     ),
@@ -204,14 +149,13 @@ class WriteSQLdataState extends State<WriteSQLdata>{
               SizedBox(
                   width: 300,
                   child: TextField(
-                  controller: email,
+                    controller: email,
                     decoration: InputDecoration(
                       hintText: 'Email',
                       suffixIcon: Icon(Icons.email),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       ),
-                      
                     ),
                   )),
               SizedBox(
@@ -220,7 +164,7 @@ class WriteSQLdataState extends State<WriteSQLdata>{
               SizedBox(
                   width: 300,
                   child: TextField(
-                  controller: pass,
+                    controller: pass,
                     obscureText: true,
                     decoration: InputDecoration(
                       hintText: 'Password',
@@ -260,15 +204,12 @@ class WriteSQLdataState extends State<WriteSQLdata>{
                         child: Text('Login'),
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Color(0xffDC7633)),
-                        onPressed: () { //if button is pressed, setstate sending = true, so that we can show "sending..."
+                        onPressed: () {
+                          //if button is pressed, setstate sending = true, so that we can show "sending..."
                           setState(() {
-                             sending = true;
+                            sending = true;
                           });
                           startLogin();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => homepage()),
-                          );
                         },
                       ),
                     ],

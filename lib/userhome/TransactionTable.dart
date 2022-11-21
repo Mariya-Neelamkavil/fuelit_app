@@ -1,10 +1,11 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:fuelit_app/login/LoginScreen.dart' as ls;
 
 
-class test2 extends StatelessWidget{
+
+class TransactionTable extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,7 +25,7 @@ class HomePage extends StatefulWidget{
 class _HomePageState extends State<HomePage> {
   bool error = false, dataloaded = false;
   var data;
-  String dataurl = "http://192.168.1.73/fuelit/config.php"; //PHP script URL
+  String dataurl = "http://${ls.ip}/fuelit/TransactionTable.php"; //PHP script URL
   // do not use http://localhost/ for your local
   // machine, Android emulation do not recognize localhost
   // insted use your local ip address or your live URL
@@ -66,7 +67,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
         appBar: AppBar(
-          title:Text("PHP/MYSQL Table"), //title of app
+          title:Text("Transaction Summary"), //title of app
           backgroundColor: Colors.redAccent, //background color of app bar
         ),
         body: Container(
@@ -98,12 +99,12 @@ class _HomePageState extends State<HomePage> {
                 //table cells inside table row
                 TableCell(child: Padding(
                     padding: EdgeInsets.all(5),
-                    child:Text(nameone.Name)
+                    child:Text(nameone.fuel_consumption)
                 )
                 ),
                 TableCell(child: Padding(
                     padding: EdgeInsets.all(5),
-                    child:Text(nameone.Email_ID)
+                    child:Text(nameone.amount)
                 )
                 )
               ]
@@ -116,18 +117,18 @@ class _HomePageState extends State<HomePage> {
 
 
 class NameOne{
-  String Name,Email_ID;
+  String fuel_consumption,amount;
 
   NameOne({
-    required this.Name,
-    required this.Email_ID,
+    required this.fuel_consumption,
+    required this.amount,
   });
   //constructor
 
   factory NameOne.fromJSON(Map<String, dynamic> json){
     return NameOne(
-        Email_ID	: json["Email_ID"],
-        Name: json["Name"]
+        fuel_consumption	: json["fuel_consumption"],
+        amount: json["amount"]
     );
   }
 }

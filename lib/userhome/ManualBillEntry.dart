@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fuelit_app/userhome/homepage.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:dart_ipify/dart_ipify.dart';
+import 'package:fuelit_app/login/LoginScreen.dart' as ls;
 
 
 
@@ -38,10 +38,6 @@ class WriteSQLdataState extends State<WriteSQLdata>{
 
   late bool error, sending, success;
   late String msg;
-  // do not use http://localhost/ for your local
-  // machine, Android emulation do not recognize localhost
-  // insted use your local ip address or your live URL
-  // hit "ipconfig" on Windows or  "ip a" on Linux to get IP Address
 
   @override
   void initState() {
@@ -54,9 +50,8 @@ class WriteSQLdataState extends State<WriteSQLdata>{
 
   Future<void> sendData() async {
 
-    
-  final ipv4 = await Ipify.ipv4();
-  String phpurl = "http://"+ipv4+"/ManualBillEntry.php";
+
+  String phpurl = "http://${ls.ip}/fuelit/ManualBillEntry.php";
 
      var res = await http.post(Uri.parse(phpurl), body: { 
           "dbfuelconsumption": fuelconsumption.text,

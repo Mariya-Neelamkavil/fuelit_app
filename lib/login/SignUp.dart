@@ -1,117 +1,109 @@
 import 'dart:convert';
-import 'package:dart_ipify/dart_ipify.dart';
 import 'package:flutter/material.dart';
 import 'package:fuelit_app/login//LoginScreen.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/services.dart';
+import 'LoginScreen.dart' as ls;
 
 
 
-class SignUp extends StatelessWidget{
+class SignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-         theme: ThemeData(
-            primarySwatch:Colors.red, //primary color for theme
-         ),
-         home: WriteSQLdata() //set the class here
-    );
+    return MaterialApp(
+        theme: ThemeData(
+          primarySwatch: Colors.red, //primary color for theme
+        ),
+        home: WriteSQLdata() //set the class here
+        );
   }
 }
 
 ////////////////////////////////////////////////
 ///////////////////////////////////////////////
 
-class WriteSQLdata extends StatefulWidget{
+class WriteSQLdata extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-     return WriteSQLdataState();
+    return WriteSQLdataState();
   }
 }
 
-
-class WriteSQLdataState extends State<WriteSQLdata>{
-
+class WriteSQLdataState extends State<WriteSQLdata> {
   TextEditingController fname = TextEditingController();
   TextEditingController email = TextEditingController();
-  TextEditingController mobile  = TextEditingController();
+  TextEditingController mobile = TextEditingController();
   TextEditingController uname = TextEditingController();
-  TextEditingController pass  = TextEditingController();
-  TextEditingController pass_conf  = TextEditingController();
+  TextEditingController pass = TextEditingController();
+  TextEditingController pass_conf = TextEditingController();
+
   // text controller for TextField
 
   late bool error, sending, success;
   late String msg;
 
-  // do not use http://localhost/ for your local
-  // machine, Android emulation do not recognize localhost
-  // insted use your local ip address or your live URL
-  // hit "ipconfig" on Windows or  "ip a" on Linux to get IP Address
-
   @override
   void initState() {
-      error = false;
-      sending = false;
-      success = false;
-      msg = "";
-      super.initState();
+    error = false;
+    sending = false;
+    success = false;
+    msg = "";
+    super.initState();
   }
 
   Future<void> sendData() async {
+    print("\n\nsendData::::");
 
-      
-  final ipv4 = await Ipify.ipv4();
-  String phpurl = "http://"+ipv4+"/ManualBillEntry.php";
+    // String internal =  await GetIp.ipAddress;
+    // final String ipv4 = await FlutterIp.internalIP;
+    String phpurl = "http://${ls.ip}/fuelit/SignUp.php";
+    print(phpurl);
+    var res = await http.post(Uri.parse(phpurl), body: {
+      "dbfname": fname.text,
+      "dbemail": email.text,
+      "dbmobile": mobile.text,
+      "dbuname": uname.text,
+      "dbpass": pass.text,
+    }); //sending post request with header data
 
-     var res = await http.post(Uri.parse(phpurl), body: { 
-          "dbfname": fname.text,
-          "dbemail": email.text,
-          "dbmobile": mobile.text,
-          "dbuname": uname.text,
-          "dbpass": pass.text,
-      }); //sending post request with header data
-
-     if (res.statusCode == 200) {
-       print("RES.BODY:::" + res.body); //print raw response on console
-       var data = json.decode(res.body); //decoding json to array
-       if(data["error"]){
-          setState(() { //refresh the UI when error is received from server
-             sending = false;
-             error = true;
-             msg = data["message"]; //error message from server
-          });
-       }else{
-         
-         fname.text = "";
-         email.text = "";
-         mobile.text = "";
-         uname.text = "";
-         pass.text = "";
-         //after write success, make fields empty
-
-          setState(() {
-             sending = false;
-             success = true; //mark success and refresh UI with setState
-          });
-       }
-       
-    }else{
-       //there is error
+    if (res.statusCode == 200) {
+      print("RES.BODY:::${res.body}"); //print raw response on console
+      var data = json.decode(res.body); //decoding json to array
+      if (data["error"]) {
         setState(() {
-            error = true;
-            msg = "Error during sending data.";
-            sending = false;
-            //mark error and refresh UI with setState
+          //refresh the UI when error is received from server
+          sending = false;
+          error = true;
+          msg = data["message"]; //error message from server
         });
+      } else {
+        fname.text = "";
+        email.text = "";
+        mobile.text = "";
+        uname.text = "";
+        pass.text = "";
+        //after write success, make fields empty
+
+        setState(() {
+          sending = false;
+          success = true; //mark success and refresh UI with setState
+        });
+      }
+    } else {
+      //there is error
+      setState(() {
+        error = true;
+        msg = "Error during sending data.";
+        sending = false;
+        //mark error and refresh UI with setState
+      });
     }
   }
 
-
-
-
- @override
+  @override
   Widget build(BuildContext context) {
-    double width=MediaQuery.of(context).size.width;
-    double height=MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
         height: height,
@@ -130,9 +122,10 @@ class WriteSQLdataState extends State<WriteSQLdata>{
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text('Sign Up',
+                      Text(
+                        'Sign Up',
                         style: TextStyle(
-                            fontSize: 25.0,fontWeight: FontWeight.bold),
+                            fontSize: 25.0, fontWeight: FontWeight.bold),
                         textAlign: TextAlign.justify,
                       ),
                     ],
@@ -155,7 +148,9 @@ class WriteSQLdataState extends State<WriteSQLdata>{
                   ),
                 ),
               ),
-              SizedBox(height: 20.0,),
+              SizedBox(
+                height: 20.0,
+              ),
               SizedBox(
                 width: 300,
                 child: TextField(
@@ -169,7 +164,9 @@ class WriteSQLdataState extends State<WriteSQLdata>{
                   ),
                 ),
               ),
-              SizedBox(height: 20.0,),
+              SizedBox(
+                height: 20.0,
+              ),
               SizedBox(
                 width: 300,
                 child: TextField(
@@ -183,7 +180,9 @@ class WriteSQLdataState extends State<WriteSQLdata>{
                   ),
                 ),
               ),
-              SizedBox(height: 20.0,),
+              SizedBox(
+                height: 20.0,
+              ),
               SizedBox(
                 width: 300,
                 child: TextField(
@@ -197,7 +196,9 @@ class WriteSQLdataState extends State<WriteSQLdata>{
                   ),
                 ),
               ),
-              SizedBox(height: 20.0,),
+              SizedBox(
+                height: 20.0,
+              ),
               SizedBox(
                 width: 300,
                 child: TextField(
@@ -212,7 +213,9 @@ class WriteSQLdataState extends State<WriteSQLdata>{
                   ),
                 ),
               ),
-              SizedBox(height: 20.0,),
+              SizedBox(
+                height: 20.0,
+              ),
               SizedBox(
                 width: 300,
                 child: TextField(
@@ -227,25 +230,30 @@ class WriteSQLdataState extends State<WriteSQLdata>{
                   ),
                 ),
               ),
-              SizedBox(height: 30.0,),
+              SizedBox(
+                height: 30.0,
+              ),
               SizedBox(
                 width: 300,
-                child:  Padding(
+                child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ElevatedButton(
                         child: Text('SignUp'),
-                        style: ElevatedButton.styleFrom(backgroundColor: Color(0xffEE7B23)),
-                        onPressed: (){ //if button is pressed, setstate sending = true, so that we can show "sending..."
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xffEE7B23)),
+                        onPressed: () {
+                          //if button is pressed, setstate sending = true, so that we can show "sending..."
                           setState(() {
-                             sending = true;
+                            sending = true;
                           });
                           sendData();
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => LoginScreen()),
+                            MaterialPageRoute(
+                                builder: (context) => LoginScreen()),
                           );
                         },
                       ),
@@ -253,27 +261,21 @@ class WriteSQLdataState extends State<WriteSQLdata>{
                   ),
                 ),
               ),
-              SizedBox(height:20.0),
+              SizedBox(height: 20.0),
               GestureDetector(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()));
                 },
                 child: Text.rich(
-                  TextSpan(
-                      text: 'Already have an account ',
-                      children: [
-                        TextSpan(
-                          text: 'Login',
-                          style: TextStyle(
-                              color: Color(0xff1F618D)
-                          ),
-                        ),
-                      ]
-                  ),
+                  TextSpan(text: 'Already have an account ', children: [
+                    TextSpan(
+                      text: 'Login',
+                      style: TextStyle(color: Color(0xff1F618D)),
+                    ),
+                  ]),
                 ),
               ),
-
-
             ],
           ),
         ),

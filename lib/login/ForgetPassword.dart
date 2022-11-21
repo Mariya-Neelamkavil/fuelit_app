@@ -1,9 +1,11 @@
 import 'dart:convert';
-import 'package:dart_ipify/dart_ipify.dart';
 import 'package:flutter/material.dart';
 import 'package:fuelit_app/login//SignUp.dart';
 import 'ValidateOTP.dart';
 import 'package:http/http.dart' as http;
+import 'LoginScreen.dart' as ls;
+
+
 
 class ForgetPassword extends StatelessWidget {
   const ForgetPassword({Key? key}) : super(key: key);
@@ -55,9 +57,7 @@ class WriteSQLdataState extends State<WriteSQLdata>{
 
   Future<void> sendData() async {
 
-    
-  final ipv4 = await Ipify.ipv4();
-  String phpurl = "http://"+ipv4+"/ManualBillEntry.php";
+  String phpurl = "http://"+ls.ip+"/fuelit/ManualBillEntry.php";
 
      var res = await http.post(Uri.parse(phpurl), body: { 
           "dbemail": email.text,

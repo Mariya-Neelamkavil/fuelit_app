@@ -42,7 +42,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.5
   syncfusion_flutter_datagrid: ^20.3.52
-  dart_ipify: ^1.1.1
+
 
 dev_dependencies:
   flutter_test:

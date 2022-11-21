@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'package:dart_ipify/dart_ipify.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'LoginScreen.dart' as ls;
 
 import 'LoginScreen.dart';
 
@@ -54,9 +54,8 @@ class WriteSQLdataState extends State<WriteSQLdata>{
 
   Future<void> sendData() async {
 
-      
-  final ipv4 = await Ipify.ipv4();
-  String phpurl = "http://"+ipv4+"/ManualBillEntry.php";
+
+  String phpurl = "http://"+ls.ip+"/ManualBillEntry.php";
 
      var res = await http.post(Uri.parse(phpurl), body: { 
           "dbemail_otp": email_otp.text,

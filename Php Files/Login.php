@@ -1,31 +1,4 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "fuelit";
-$table = "registration"; 
-$conn = new mysqli($servername, $username, $password, $dbname);
- // Check Connection
-// if($conn->connect_error){
-// die("Connection Failed: " . $conn->connect_error);
-// return;
-// }
-
-$dbemail=$_POST['dbemail'];
-$dbpass=$_POST['dbpass'];
-$sql = "select * from registration";
-
-if ($conn->query($sql) === TRUE) {
-  echo "New record created successfully";
-} else {
-  echo "Error: " . $sql . "<br>" . $conn->error;
-}
-$conn->close();
-?>
-////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////
-
-<?php 
   $db = "fuelit"; //database name
   $dbuser = "root"; //database username
   $dbpassword = ""; //database password
