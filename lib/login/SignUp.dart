@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:fuelit_app/Validation.dart';
 import 'package:fuelit_app/login//LoginScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
 import 'LoginScreen.dart' as ls;
-import 'package:fuelit_app/Validation.dart' as val;
+import 'dart:async';
 
 
 
@@ -12,6 +13,7 @@ class SignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.red, //primary color for theme
         ),
@@ -142,7 +144,7 @@ class WriteSQLdataState extends State<WriteSQLdata> {
                 ),
               ),
               SizedBox(
-                height: 30.0,
+                height: 20.0,
                 width: 300,
                 child: Text(
                   fname_val,
@@ -354,58 +356,41 @@ class WriteSQLdataState extends State<WriteSQLdata> {
     // ignore: dead_code
     );
   }
-  void validate()
+  void validate() async
   {
-    if (!val.isValidEmail(email.text)) 
+    if (!val.isValidEmail(email.text))
       email_val="Enter valid Email ID!!!";
     else email_val="";
-    if (!val.isValidPassword(pass.text)) 
+    if(val.isNotNull(email.text))
+      email_val="Email field cannot be empty";
+
+    if (!val.isValidPassword(pass.text))
       pass_val="Enter valid Password!!!";
     else pass_val="";
-    if (!val.isValidPhone(mobile.text)) 
-      mobile_val="Enter valid Phone Number!!!";
+    if(val.isNotNull(pass.text))
+      pass_val="Password field cannot be empty";
+
+    if (!val.isValidPhone(mobile.text))
+       mobile_val="Enter valid Phone Number!!!";
     else mobile_val="";
-    if (!val.isNotNull(pass_conf.text)) 
-      pass_conf_val="This field must not be empty!!!";
+    if(val.isNotNull(mobile.text))
+      mobile_val="Phone number field cannot be empty";
+
+    if (val.isNotNull(pass_conf.text))
+      pass_conf_val="Confirm Password field must not be empty!!!";
     else pass_conf_val="";
-    if (!val.isNotNull(uname.text)) 
-      uname_val="This field must not be empty!!!";
+
+    if (uname.text.isEmpty)
+      uname_val="Username field must not be empty!!!";
     else uname_val="";
-    if (!val.isNotNull(fname.text)) 
-      fname_val="This field must not be empty!!!";
+
+    if (fname.text.isEmpty)
+      fname_val="Full name must not be empty!!!";
     else fname_val="";
-  }
-  }
 
-
-class Validation
-{
-  bool isValidEmail(String mailid) {
-    final emailRegExp = RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-    return emailRegExp.hasMatch(mailid);
+    if(pass.text!=pass_conf.text)
+      pass_conf_val="Password and confirm password should be same";
   }
-
-
-
-  bool  isValidName(name){
-    final nameRegExp = new RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
-    return nameRegExp.hasMatch(name);
-  }
-  
-  bool  isValidPassword(pass){
-    final passwordRegExp =
-    RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\><*~]).{8,}/pre>');
-    return passwordRegExp.hasMatch(pass);
-  }
-  
-  bool  isNotNull(nullval){
-    return nullval!=null;
-  }
-  
-  bool  isValidPhone(phone){
-    final phoneRegExp = RegExp(r"^\+?0[0-9]{10}$");
-    return phoneRegExp.hasMatch(phone);
-    }
 }
 
 

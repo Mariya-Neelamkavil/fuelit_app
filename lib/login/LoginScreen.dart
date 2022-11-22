@@ -5,7 +5,7 @@ import 'package:fuelit_app/login/SignUp.dart';
 import 'package:fuelit_app/userhome/homepage.dart';
 import 'package:http/http.dart' as http;
 
-var ip = "192.168.52.25";
+var ip = "192.168.137.174";
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -13,6 +13,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.red, //primary color for theme
         ),
@@ -79,7 +80,7 @@ class WriteSQLdataState extends State<WriteSQLdata> {
           });
           //save the data returned from server
           //and navigate to home page
-          String uid = jsondata["uid"];
+          //String uid = jsondata["uid"];
           String name = jsondata["name"];
           print(name);
           Navigator.push(
@@ -209,7 +210,13 @@ class WriteSQLdataState extends State<WriteSQLdata> {
                           setState(() {
                             sending = true;
                           });
-                          startLogin();
+                          // startLogin();
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => homepage()),
+                          );
+
                         },
                       ),
                     ],

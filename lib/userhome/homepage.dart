@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fuelit_app/userhome/ScanPage.dart';
 import 'ManualBillEntry.dart';
 import 'TransactionTable.dart';
 
@@ -22,10 +21,11 @@ class MyNavigationBar extends StatefulWidget {
 
 class _MyNavigationBarState extends State<MyNavigationBar> {
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text('Home', style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
-    Text('Search', style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
-    Text('Profile', style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
+   static const List<Widget> _widgetOptions = <Widget>[
+    Text('Home Page', style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
+    Text('Reports Page', style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
+    Text('Transaction Page', style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
+    Text('Map Page', style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
   ];
 
   void _onItemTapped(int index) {
@@ -38,7 +38,12 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
+
+
         child: Column(children: <Widget>[
+          _widgetOptions.elementAt(_selectedIndex),
+
+
           SizedBox(
             height: 200,
           ),
@@ -138,6 +143,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                   icon: Icon(Icons.home),
                   label: 'Home',
                   backgroundColor: Color(0xffF8917B)),
+
               BottomNavigationBarItem(
                   icon: Icon(Icons.notes_outlined),
                   label: 'Reports',
