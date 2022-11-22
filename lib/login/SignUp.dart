@@ -4,6 +4,7 @@ import 'package:fuelit_app/login//LoginScreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
 import 'LoginScreen.dart' as ls;
+import 'package:fuelit_app/Validation.dart' as val;
 
 
 
@@ -30,12 +31,20 @@ class WriteSQLdata extends StatefulWidget {
 }
 
 class WriteSQLdataState extends State<WriteSQLdata> {
+
+  Validation val = new Validation();
   TextEditingController fname = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController mobile = TextEditingController();
   TextEditingController uname = TextEditingController();
   TextEditingController pass = TextEditingController();
   TextEditingController pass_conf = TextEditingController();
+  String email_val = "";
+  String pass_val = "";
+  String mobile_val = "";
+  String uname_val = "";
+  String fname_val = "";
+  String pass_conf_val = "";
 
   // text controller for TextField
 
@@ -134,6 +143,16 @@ class WriteSQLdataState extends State<WriteSQLdata> {
               ),
               SizedBox(
                 height: 30.0,
+                width: 300,
+                child: Text(
+                  fname_val,
+                  style: TextStyle(
+                    fontFamily: 'Arial',
+                    fontSize: 13,
+                    color: Colors.red,
+                  ),
+                  textAlign: TextAlign.center,
+                  ),
               ),
               SizedBox(
                 width: 300,
@@ -150,6 +169,16 @@ class WriteSQLdataState extends State<WriteSQLdata> {
               ),
               SizedBox(
                 height: 20.0,
+                width: 300,
+                child: Text(
+                  email_val,
+                  style: TextStyle(
+                    fontFamily: 'Arial',
+                    fontSize: 13,
+                    color: Colors.red,
+                  ),
+                  textAlign: TextAlign.center,
+                  ),
               ),
               SizedBox(
                 width: 300,
@@ -166,6 +195,16 @@ class WriteSQLdataState extends State<WriteSQLdata> {
               ),
               SizedBox(
                 height: 20.0,
+                width: 300,
+                child: Text(
+                  mobile_val,
+                  style: TextStyle(
+                    fontFamily: 'Arial',
+                    fontSize: 13,
+                    color: Colors.red,
+                  ),
+                  textAlign: TextAlign.center,
+                  ),
               ),
               SizedBox(
                 width: 300,
@@ -182,6 +221,16 @@ class WriteSQLdataState extends State<WriteSQLdata> {
               ),
               SizedBox(
                 height: 20.0,
+                width: 300,
+                child: Text(
+                  uname_val,
+                  style: TextStyle(
+                    fontFamily: 'Arial',
+                    fontSize: 13,
+                    color: Colors.red,
+                  ),
+                  textAlign: TextAlign.center,
+                  ),
               ),
               SizedBox(
                 width: 300,
@@ -198,6 +247,16 @@ class WriteSQLdataState extends State<WriteSQLdata> {
               ),
               SizedBox(
                 height: 20.0,
+                width: 300,
+                child: Text(
+                  pass_val,
+                  style: TextStyle(
+                    fontFamily: 'Arial',
+                    fontSize: 13,
+                    color: Colors.red,
+                  ),
+                  textAlign: TextAlign.center,
+                  ),
               ),
               SizedBox(
                 width: 300,
@@ -215,6 +274,16 @@ class WriteSQLdataState extends State<WriteSQLdata> {
               ),
               SizedBox(
                 height: 20.0,
+                width: 300,
+                child: Text(
+                  pass_conf_val,
+                  style: TextStyle(
+                    fontFamily: 'Arial',
+                    fontSize: 13,
+                    color: Colors.red,
+                  ),
+                  textAlign: TextAlign.center,
+                  ),
               ),
               SizedBox(
                 width: 300,
@@ -245,16 +314,18 @@ class WriteSQLdataState extends State<WriteSQLdata> {
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Color(0xffEE7B23)),
                         onPressed: () {
+
+                          validate();
                           //if button is pressed, setstate sending = true, so that we can show "sending..."
                           setState(() {
                             sending = true;
                           });
                           sendData();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginScreen()),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => LoginScreen()),
+                          // );
                         },
                       ),
                     ],
@@ -280,6 +351,62 @@ class WriteSQLdataState extends State<WriteSQLdata> {
           ),
         ),
       ),
+    // ignore: dead_code
     );
   }
+  void validate()
+  {
+    if (!val.isValidEmail(email.text)) 
+      email_val="Enter valid Email ID!!!";
+    else email_val="";
+    if (!val.isValidPassword(pass.text)) 
+      pass_val="Enter valid Password!!!";
+    else pass_val="";
+    if (!val.isValidPhone(mobile.text)) 
+      mobile_val="Enter valid Phone Number!!!";
+    else mobile_val="";
+    if (!val.isNotNull(pass_conf.text)) 
+      pass_conf_val="This field must not be empty!!!";
+    else pass_conf_val="";
+    if (!val.isNotNull(uname.text)) 
+      uname_val="This field must not be empty!!!";
+    else uname_val="";
+    if (!val.isNotNull(fname.text)) 
+      fname_val="This field must not be empty!!!";
+    else fname_val="";
+  }
+  }
+
+
+class Validation
+{
+  bool isValidEmail(String mailid) {
+    final emailRegExp = RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    return emailRegExp.hasMatch(mailid);
+  }
+
+
+
+  bool  isValidName(name){
+    final nameRegExp = new RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
+    return nameRegExp.hasMatch(name);
+  }
+  
+  bool  isValidPassword(pass){
+    final passwordRegExp =
+    RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\><*~]).{8,}/pre>');
+    return passwordRegExp.hasMatch(pass);
+  }
+  
+  bool  isNotNull(nullval){
+    return nullval!=null;
+  }
+  
+  bool  isValidPhone(phone){
+    final phoneRegExp = RegExp(r"^\+?0[0-9]{10}$");
+    return phoneRegExp.hasMatch(phone);
+    }
 }
+
+
+
