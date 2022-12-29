@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fuelit_app/Validation.dart';
 import 'package:fuelit_app/userhome/homepage.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -31,10 +32,13 @@ class WriteSQLdata extends StatefulWidget{
 
 
 class WriteSQLdataState extends State<WriteSQLdata>{
+  Validation val = new Validation();
 
   TextEditingController fuelconsumption= TextEditingController();
   TextEditingController amount = TextEditingController();
   // text controller for TextField
+  String fuelconsumption_val = "";
+  String amount_val = "";
 
   late bool error, sending, success;
   late String msg;
@@ -128,6 +132,16 @@ class WriteSQLdataState extends State<WriteSQLdata>{
               ),
               SizedBox(
                 height: 20.0,
+                width: 300,
+                child: Text(
+                  fuelconsumption_val,
+                  style: TextStyle(
+                    fontFamily: 'Arial',
+                    fontSize: 13,
+                    color: Colors.red,
+                  ),
+                  textAlign: TextAlign.center,
+                  ),
               ),
               SizedBox(
                 width: 300,
@@ -144,6 +158,16 @@ class WriteSQLdataState extends State<WriteSQLdata>{
               ),
               SizedBox(
                 height: 20.0,
+                width: 300,
+                child: Text(
+                  amount_val,
+                  style: TextStyle(
+                    fontFamily: 'Arial',
+                    fontSize: 13,
+                    color: Colors.red,
+                  ),
+                  textAlign: TextAlign.center,
+                  ),
               ),
               SizedBox(
                 width: 300,
@@ -209,5 +233,23 @@ class WriteSQLdataState extends State<WriteSQLdata>{
         ),
       ),
     );
+  }
+  void validate() async
+  {
+    if(val.isNotNull(fuelconsumption.text))
+      fuelconsumption_val="Email field cannot be empty";
+
+    if (!val.isValidfloat(fuelconsumption.text))
+    fuelconsumption_val="Enter valid value!!!";
+    else fuelconsumption_val="";
+
+    if(val.isNotNull(amount.text))
+      amount_val="Email field cannot be empty";
+
+    if (!val.isValidfloat(amount.text))
+    amount_val="Enter valid value!!!";
+    else amount_val="";
+
+
   }
 }
