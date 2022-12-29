@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:fuelit_app/userhome/ScanPage.dart';
 import 'ManualBillEntry.dart';
 import 'TransactionTable.dart';
 
@@ -40,11 +42,18 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
               backgroundColor: Color(0xffF8917B),
               padding: EdgeInsets.all(30),
             ),
-            onPressed: () {
+           /* onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => homepage()),
+                MaterialPageRoute(builder: (context) => ScanPage()),
               );
+            },*/
+            onPressed: ()  async{
+              String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+                  "#1d1d1d",
+                  "Cancel", true,
+                  ScanMode.DEFAULT);
+              print("barcode-----   $barcodeScanRes");
             },
           ),
         ),
