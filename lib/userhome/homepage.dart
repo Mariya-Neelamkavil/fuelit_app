@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'ManualBillEntry.dart';
 import 'TransactionTable.dart';
+import 'package:fuelit_app/userhome/ScanPage.dart';
 
 class homepage extends StatelessWidget {
   @override
@@ -96,7 +97,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => homepage()),
+                    MaterialPageRoute(builder: (context) => ScanPage()),
                   );
                 },
               ),
