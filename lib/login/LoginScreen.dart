@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:fuelit_app/userhome/UserHomePage.dart';
 import 'ForgetPassword.dart';
 import 'package:fuelit_app/login/SignUp.dart';
-import 'package:fuelit_app/userhome/homepage.dart';
 import 'package:http/http.dart' as http;
 
-var ip = "192.168.137.174";
+var ip = "192.168.204.199";
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -85,7 +85,7 @@ class WriteSQLdataState extends State<WriteSQLdata> {
           print(name);
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => homepage()),
+            MaterialPageRoute(builder: (context) => UserHomePage()),
           );
           //user shared preference to save data
         } else {
@@ -214,7 +214,7 @@ class WriteSQLdataState extends State<WriteSQLdata> {
 
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => homepage()),
+                            MaterialPageRoute(builder: (context) => UserHomePage()),
                           );
 
                         },

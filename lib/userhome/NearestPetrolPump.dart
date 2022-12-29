@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Reports extends StatelessWidget {
+class NearestPetrolPump extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -8,7 +8,7 @@ class Reports extends StatelessWidget {
       color: const Color(0xffC4DFCB),
       child: Center(
         child: Text(
-          "Reports page",
+          "Page Number 1",
           style: TextStyle(
             color: Colors.green[900],
             fontSize: 45,
