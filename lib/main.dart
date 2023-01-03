@@ -44,17 +44,17 @@ class _MyHomePageState extends State<Splashscreen> {
 
   initScreen(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      //backgroundColor: Colors.,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Image.asset('assets/fuelit_logo.png'),
             const Padding(padding: EdgeInsets.only(top: 20.0)),
-            const Text(
-              "FUELiT",
-              style: TextStyle(fontSize: 20.0, color: Colors.indigoAccent),
-            ),
+            // const Text(
+            //   "FUELiT",
+            //   style: TextStyle(fontSize: 20.0, color: Colors.indigoAccent),
+            // ),
             const Padding(padding: EdgeInsets.only(top: 20.0)),
             const CircularProgressIndicator(
               backgroundColor: Colors.white,

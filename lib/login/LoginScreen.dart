@@ -5,7 +5,7 @@ import 'ForgetPassword.dart';
 import 'package:fuelit_app/login/SignUp.dart';
 import 'package:http/http.dart' as http;
 
-var ip = "192.168.204.199";
+var ip = "192.168.111.199";
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -117,18 +117,18 @@ class WriteSQLdataState extends State<WriteSQLdata> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                  width: 400,
+                  //width: 300,
                   child: Container(
-                    width: width,
-                    height: height * 0.45,
+                    // width: width,
+                    // height: height * 0.45,
                     child: Image.asset(
                       'assets/logo.png',
                       fit: BoxFit.fill,
                     ),
                   )),
-              SizedBox(
-                height: 8.0,
-              ),
+              // SizedBox(
+              //   height: 8.0,
+              // ),
               SizedBox(
                   width: 300,
                   child: Padding(

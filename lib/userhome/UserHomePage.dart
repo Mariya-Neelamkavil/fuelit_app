@@ -24,7 +24,7 @@ class _HomePageState extends State<UserHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffC4DFCB),
+      backgroundColor: const Color(0xffFFFF),
       body: pages[pageIndex],
       bottomNavigationBar: buildMyNavBar(context),
     );
@@ -34,7 +34,7 @@ class _HomePageState extends State<UserHomePage> {
     return Container(
       height: 60,
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
+        color: Colors.orange,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),

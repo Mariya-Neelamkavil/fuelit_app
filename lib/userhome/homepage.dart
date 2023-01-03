@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:fuelit_app/userhome/ScanPage.dart';
 import 'ManualBillEntry.dart';
 import 'TransactionTable.dart';
 
@@ -24,23 +23,26 @@ class MyNavigationBar extends StatefulWidget {
 class _MyNavigationBarState extends State<MyNavigationBar> {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context). size. width ;
+    double height = MediaQuery.of(context). size. height;
+    print("Width: $width\n Height: $height");
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Container(
-          margin: EdgeInsets.only(left: 95,bottom: 50),
+          margin: EdgeInsets.only(bottom: 90),
           alignment: Alignment.bottomLeft,
           child: OutlinedButton(
             child: Text(
-              "Scan Bill",
+              "Scan\nBill",
               style: TextStyle(fontSize: 20.0, color: Colors.white),
             ),
             style: OutlinedButton.styleFrom(
               shape: new RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(25.0),
               ),
-              backgroundColor: Color(0xffF8917B),
-              padding: EdgeInsets.all(30),
+              backgroundColor: Colors.orange,
+              padding: EdgeInsets.all(20),
             ),
            /* onPressed: () {
               Navigator.push(
@@ -58,15 +60,15 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
           ),
         ),
         Container(
-          margin: EdgeInsets.zero,
-          alignment: Alignment.center,
+          margin: EdgeInsets.only(top: 160),
+          alignment: Alignment.topCenter,
           child: OutlinedButton(
-              child: Text("Test",
+              child: Text("Total\nUsage",
                   style: TextStyle(fontSize: 20.0, color: Colors.white)),
               style: OutlinedButton.styleFrom(
                 shape: CircleBorder(),
-                backgroundColor: Color(0xffF8917B),
-                padding: EdgeInsets.all(80),
+                backgroundColor: Colors.orange,
+                padding: EdgeInsets.all(width/15),
               ),
               onPressed: () {
                 Navigator.push(
@@ -77,19 +79,19 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
         ),
 
         Container(
-          margin: EdgeInsets.only(right: 95,bottom: 50),
+          margin: EdgeInsets.only(bottom: 90),
           alignment: Alignment.bottomLeft,
           child: OutlinedButton(
             child: Text(
-              "Manual entry",
+              "Manual\n entry",
               style: TextStyle(fontSize: 20.0, color: Colors.white),
             ),
             style: OutlinedButton.styleFrom(
               shape: new RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(25.0),
               ),
-              backgroundColor: Color(0xffF8917B),
-              padding: EdgeInsets.all(30),
+              backgroundColor: Colors.orange,
+              padding: EdgeInsets.all(20),
             ),
             onPressed: () {
               Navigator.of(context).push(
