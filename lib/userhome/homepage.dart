@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:fuelit_app/userhome/QRBillEntry.dart';
 import 'ManualBillEntry.dart';
 import 'TransactionTable.dart';
 
@@ -21,6 +22,7 @@ class MyNavigationBar extends StatefulWidget {
 }
 
 class _MyNavigationBarState extends State<MyNavigationBar> {
+  String barcodeScanRes = "";
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context). size. width ;
@@ -44,19 +46,29 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
               backgroundColor: Colors.orange,
               padding: EdgeInsets.all(20),
             ),
-           /* onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ScanPage()),
-              );
-            },*/
-            onPressed: ()  async{
-              String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+            onPressed: () async {
+              barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
                   "#1d1d1d",
-                  "Cancel", true,
-                  ScanMode.DEFAULT);
-              print("barcode-----   $barcodeScanRes");
+                  "HELLO--------", false,
+                  ScanMode.QR);
+              // print("barcode--   $barcodeScanRes");
+              // Text('Scan result : $barcodeScanRes\n',
+              //     style: const TextStyle(fontSize: 20));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        QRBillEntry(barcode: barcodeScanRes),
+                  )
+              );
             },
+            // onPressed: ()  async{
+            //   String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+            //       "#1d1d1d",
+            //       "Cancel", true,
+            //       ScanMode.DEFAULT);
+            //   print("barcode-----   $barcodeScanRes");
+            // },
           ),
         ),
         Container(

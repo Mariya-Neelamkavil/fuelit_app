@@ -5,7 +5,7 @@ import 'package:fuelit_app/userhome/homepage.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:fuelit_app/login/LoginScreen.dart' as ls;
-
+import 'package:intl/intl.dart';
 
 
 class ManualBillEntry extends StatelessWidget {
@@ -39,7 +39,7 @@ class WriteSQLdataState extends State<WriteSQLdata>{
   // text controller for TextField
   String fuelconsumption_val = "";
   String amount_val = "";
-
+  String now = DateFormat("yyyy-MM-dd").format(DateTime.now());
   late bool error, sending, success;
   late String msg;
 
@@ -60,8 +60,8 @@ class WriteSQLdataState extends State<WriteSQLdata>{
      var res = await http.post(Uri.parse(phpurl), body: { 
           "dbfuelconsumption": fuelconsumption.text,
           "dbamount": amount.text,
+          "dbdate" : now,
       }); //sending post request with header data
-
      if (res.statusCode == 200) {
        print("RES.BODY:::" + res.body); //print raw response on console
        var data = json.decode(res.body); //decoding json to array
@@ -191,6 +191,7 @@ class WriteSQLdataState extends State<WriteSQLdata>{
                   obscureText: true,
                   decoration: InputDecoration(
                     hintText: 'Date & Time',
+                    labelText: now,
                     suffixIcon: Icon(Icons.timelapse),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0),

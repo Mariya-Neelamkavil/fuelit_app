@@ -1,4 +1,4 @@
-// import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:fuelit_app/Validation.dart';
 import 'package:fuelit_app/userhome/homepage.dart';
@@ -6,35 +6,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:fuelit_app/login/LoginScreen.dart' as ls;
 
-
-
-
-// class QRBillEntry extends StatelessWidget {
-//   String barcode;
-//   QRBillEntry({Key? key,required this.barcode)} : super(key: key);
-//
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return  MaterialApp(
-//         theme: ThemeData(
-//           primarySwatch:Colors.red, //primary color for theme
-//         ),
-//         home: WriteSQLdata(barcode: '',) //set the class here
-//     );
-//   }
-// }
-
-////////////////////////////////////////////////
-///////////////////////////////////////////////
-
 class QRBillEntry extends StatefulWidget{
   String barcode;
   QRBillEntry({Key? key,required this.barcode}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    print('Name: $barcode');
     return WriteSQLdataState();
   }
 }
@@ -45,11 +22,11 @@ class WriteSQLdataState extends State<QRBillEntry>{
   TextEditingController fuelconsumption= TextEditingController();
   TextEditingController amount = TextEditingController();
   // text controller for TextField
- late  List<String> arr= widget.barcode.split(' ');
+  late  List<String> arr= widget.barcode.split('\n');
 
   String fuelconsumption_val = "";
   String amount_val = "";
-
+  String now = DateFormat("yyyy-MM-dd").format(DateTime.now());
   late bool error, sending, success;
   late String msg;
 
@@ -68,14 +45,13 @@ class WriteSQLdataState extends State<QRBillEntry>{
     String phpurl = "http://${ls.ip}/fuelit/ManualBillEntry.php";
     // fuelconsumption_val=arr[0];
     // amount_val=arr[1];
-   // print(fuelconsumption_val);
-    print(arr);
-    print(arr[1]);
+    // print(fuelconsumption_val);
 
 
     var res = await http.post(Uri.parse(phpurl), body: {
       "dbfuelconsumption": fuelconsumption.text,
       "dbamount": amount.text,
+      "dbdate" : now,
     }); //sending post request with header data
 
     if (res.statusCode == 200) {
@@ -165,9 +141,9 @@ class WriteSQLdataState extends State<QRBillEntry>{
                 child: TextField(
                   controller: fuelconsumption,
                   decoration: InputDecoration(
-                    labelText: arr[0],
+                    labelText: arr.first,
 
-                  hintText: 'Enter Fuel Consumption',
+                    hintText: 'Enter Fuel Consumption',
                     suffixIcon: Icon(Icons.add),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0),
@@ -196,7 +172,7 @@ class WriteSQLdataState extends State<QRBillEntry>{
                   controller: amount,
                   decoration: InputDecoration(
                     labelText: arr.last,
-                   // hintText: 'widget.barcode',
+                    // hintText: 'widget.barcode',
                     suffixIcon: Icon(Icons.add_chart),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0),
@@ -213,6 +189,7 @@ class WriteSQLdataState extends State<QRBillEntry>{
                   obscureText: true,
                   decoration: InputDecoration(
                     hintText: 'Date & Time',
+                    labelText: now,
                     suffixIcon: Icon(Icons.timelapse),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0),
