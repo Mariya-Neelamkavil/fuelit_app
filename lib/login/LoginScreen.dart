@@ -4,6 +4,7 @@ import 'package:fuelit_app/userhome/UserHomePage.dart';
 import 'ForgetPassword.dart';
 import 'package:fuelit_app/login/SignUp.dart';
 import 'package:http/http.dart' as http;
+import 'package:fuelit_app/adminhome/AdminHomePage.dart';
 
 var ip = "192.168.111.199";
 
@@ -40,7 +41,6 @@ class WriteSQLdataState extends State<WriteSQLdata> {
 
   late bool error, sending, success, showprogress;
   late String msg, errormsg;
-
 
 
   void initState() {
@@ -211,12 +211,20 @@ class WriteSQLdataState extends State<WriteSQLdata> {
                             sending = true;
                           });
                           // startLogin();
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => UserHomePage()),
-                          );
-
+                          if(adminLogin())
+                            {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => AdminHomePage()),
+                              );
+                            }
+                          else
+                            {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => UserHomePage()),
+                              );
+                            }
                         },
                       ),
                     ],
@@ -245,5 +253,17 @@ class WriteSQLdataState extends State<WriteSQLdata> {
         ),
       ),
     );
+  }
+
+  bool adminLogin() {
+    print(email.text);
+    if(email.text=="admin" && pass.text=="1234")
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
 }
