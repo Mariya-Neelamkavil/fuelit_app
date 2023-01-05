@@ -8,6 +8,7 @@ class TransactionTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: HomePage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -59,7 +60,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         appBar: AppBar(
           title: Text("Transaction Summary"), //title of app
-          backgroundColor: Colors.redAccent, //background color of app bar
+          backgroundColor: Colors.orange, //background color of app bar
         ),
         body: Container(
           padding: EdgeInsets.all(15),
@@ -86,12 +87,15 @@ class _HomePageState extends State<HomePage> {
         //if data is loaded then show table
         border: TableBorder.all(width: 1, color: Colors.black45),
 
-
          children : namelist.map((nameone) {
 
           return TableRow(children: [
             //return table row in every loop
             //table cells inside table row
+            TableCell(
+                            child: Padding(
+                                padding: EdgeInsets.all(5),
+                                child: Text(nameone.date))),
             TableCell(
                 child: Padding(
                     padding: EdgeInsets.all(5),
@@ -107,17 +111,18 @@ class _HomePageState extends State<HomePage> {
 }
 
 class NameOne {
-  String fuel_consumption, amount;
+  String fuel_consumption, amount,date;
 
   NameOne({
     required this.fuel_consumption,
     required this.amount,
+    required this.date,
   });
 
   //constructor
 
   factory NameOne.fromJSON(Map<String, dynamic> json) {
     return NameOne(
-        fuel_consumption: json["fuel_consumption"], amount: json["amount"]);
+        fuel_consumption: json["fuel_consumption"], amount: json["amount"], date: json["date"]);
   }
 }
