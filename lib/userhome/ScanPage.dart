@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+// import 'package:flutter/services.dart';
+
+
 
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:fuelit_app/userhome/QRBillEntry.dart';
 
 class ScanPage extends StatefulWidget{
   @override
-  _MyAppState createState() => new _MyAppState();
+  _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<ScanPage> {
-  String barcode=" ";
+  String barcodeScanRes="";
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
   }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: new AppBar(
-          title: new Text("QR  Code Reader "),
+        appBar: AppBar(
+          title: Text("QR  Code Reader "),
         ),
-        body: new Center(
-          child: new Column(
+        body: Center(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -29,29 +33,99 @@ class _MyAppState extends State<ScanPage> {
                 padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: ElevatedButton(
 
-                  style: ElevatedButton.styleFrom(
-                      // side: BorderSide(color: Colors.yellow, width: 5),
+                    style: ElevatedButton.styleFrom(
+                      side: BorderSide(color: Colors.orange),
                       textStyle: const TextStyle(
                           color: Colors.white, fontSize: 25, fontStyle: FontStyle.normal),
-                      primary: Colors.blue ,
 
-                  ),
+                    ),
                     onPressed: ()  async{
-                      String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+                      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
                           "#1d1d1d",
-                          "Cancel", true,
-                          ScanMode.DEFAULT);
-                      print("barcode--   $barcodeScanRes");
+                          "HELLO--------", false,
+                          ScanMode.QR);
+                      // print("barcode--   $barcodeScanRes");
+                      // Text('Scan result : $barcodeScanRes\n',
+                      //     style: const TextStyle(fontSize: 20));
                     },
                     child: const Text('START CAMERA SCAN')
 
+
                 ),
+
+
+
+
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: Text(barcode, textAlign: TextAlign.center,),
+                child: Text(barcodeScanRes, textAlign: TextAlign.center,),
               ),
-            ],
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                child:Column(
+                  children: [
+                    ElevatedButton(
+
+                        style: ElevatedButton.styleFrom(
+
+                          side: BorderSide(color: Colors.orange),
+                          textStyle: const TextStyle(
+                              color: Colors.white, fontSize: 25, fontStyle: FontStyle.normal),
+
+                        ),
+                        onPressed: () {
+                          {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => QRBillEntry(barcode: barcodeScanRes),
+                                )
+                            );
+                          }
+                          // async{
+                          //   barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+                          //       "#1d1d1d",
+                          //       "HELLO--------", false,
+                          //       ScanMode.QR);
+                          //   print("barcode--   $barcodeScanRes");
+                          //   // Text('Scan result : $barcodeScanRes\n',
+                          //   //     style: const TextStyle(fontSize: 20));
+                          // },
+
+                        }, child: const Text('View Bill'),
+                    ),
+                  ],
+                ),
+                // SizedBox(
+                //   width: 300,
+                //   child: Padding(
+                //     padding: const EdgeInsets.all(10.0),
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //       children: [
+                //         GestureDetector(
+                //           // onTap: () {
+                //           //   Navigator.push(
+                //           //       context,
+                //           //       MaterialPageRoute(
+                //           //           builder: (context) => ForgetPassword()));
+                //           // },
+                //           child: Text.rich(
+                //             TextSpan(
+                //               text: barcodeScanRes,
+                //               style: TextStyle(
+                //                 color: Colors.orange,
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //
+                //       ],
+                //     ),
+                //   ),
+                // ),
+              )],
           ),
         ));
   }
@@ -60,7 +134,7 @@ class _MyAppState extends State<ScanPage> {
 // Future scan() async {
 //           try {
 //             await BarcodeScanner.scan().then((value)
-//             // setState(() => this.barcode=value.rawContent.toString()));
+//              setState(() => this.barcode=value.rawContent.toString()));
 //
 //           } on PlatformException catch (e){
 //             if(e.code== BarcodeScanner.CameraAccessDenied){
@@ -79,4 +153,4 @@ class _MyAppState extends State<ScanPage> {
 //
 //              }
 //             }
-          }
+}
