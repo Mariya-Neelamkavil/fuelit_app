@@ -8,6 +8,7 @@ class NearestPetrolPump extends StatelessWidget {
         theme: ThemeData(
           primarySwatch:Colors.blueGrey, //primary color for theme
         ),
+     debugShowCheckedModeBanner: false,
      home: ElevatedButton(
           onPressed: _launchUrl,
           child: Text('Go to Google Map'),
@@ -18,5 +19,5 @@ class NearestPetrolPump extends StatelessWidget {
 
 _launchUrl() async {
   const url = 'https://www.google.com/maps/search/nearest+petrol+pumps/';
-  await launch(url);
+  await launch(url);
 }
