@@ -20,7 +20,6 @@ class MyNavigationBar extends StatefulWidget {
 }
 
 class _MyNavigationBarState extends State<MyNavigationBar> {
-  String barcodeScanRes = "";
   @override
   Widget build(BuildContext context) {
 
@@ -28,11 +27,11 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Container(
-          margin: EdgeInsets.only(bottom: 90),
-          alignment: Alignment.topRight,
+          margin: EdgeInsets.only(top: 00),
+          alignment: Alignment.center,
           child: OutlinedButton(
             child: Text(
-              "View\nBill",
+              "View Bill",
               style: TextStyle(fontSize: 20.0, color: Colors.white),
             ),
             style: OutlinedButton.styleFrom(
@@ -40,7 +39,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                 borderRadius: new BorderRadius.circular(25.0),
               ),
               backgroundColor: Colors.orange,
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(25),
             ),
             onPressed: () {
               Navigator.push(
@@ -48,22 +47,16 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                 MaterialPageRoute(builder: (context) => ViewBills()),
               );
             },
-            // onPressed: ()  async{
-            //   String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-            //       "#1d1d1d",
-            //       "Cancel", true,
-            //       ScanMode.DEFAULT);
-            //   print("barcode-----   $barcodeScanRes");
-            // },
           ),
+
         ),
 
         Container(
-          margin: EdgeInsets.only(bottom: 90),
-          alignment: Alignment.bottomLeft,
+          margin: EdgeInsets.only(bottom: 00),
+          alignment: Alignment.center,
           child: OutlinedButton(
             child: Text(
-              "Manage\nusers",
+              "Manage users",
               style: TextStyle(fontSize: 20.0, color: Colors.white),
             ),
             style: OutlinedButton.styleFrom(
@@ -71,7 +64,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                 borderRadius: new BorderRadius.circular(25.0),
               ),
               backgroundColor: Colors.orange,
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(25),
             ),
             onPressed: () {
               Navigator.push(
