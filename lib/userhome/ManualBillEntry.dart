@@ -172,7 +172,7 @@ class WriteSQLdataState extends State<WriteSQLdata>{
               SizedBox(
                 width: 300,
                 child: TextField(
-                  controller: amount  ,
+                  controller: amount,
                   decoration: InputDecoration(
                     hintText: 'Enter Amount of Bill',
                     suffixIcon: Icon(Icons.add_chart),

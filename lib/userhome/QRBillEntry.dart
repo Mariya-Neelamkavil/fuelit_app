@@ -37,6 +37,8 @@ class WriteSQLdataState extends State<QRBillEntry>{
     success = false;
     msg = "";
     super.initState();
+    fuelconsumption.text=arr.first;
+    amount.text=arr.last;
   }
 
   Future<void> sendData() async {
@@ -49,8 +51,8 @@ class WriteSQLdataState extends State<QRBillEntry>{
 
 
     var res = await http.post(Uri.parse(phpurl), body: {
-      "dbfuelconsumption": fuelconsumption.text,
-      "dbamount": amount.text,
+      "dbfuelconsumption": arr.first,
+      "dbamount": arr.last,
       "dbdate" : now,
     }); //sending post request with header data
 
@@ -141,7 +143,7 @@ class WriteSQLdataState extends State<QRBillEntry>{
                 child: TextField(
                   controller: fuelconsumption,
                   decoration: InputDecoration(
-                    labelText: arr.first,
+                   // labelText: arr.first,
 
                     hintText: 'Enter Fuel Consumption',
                     suffixIcon: Icon(Icons.add),
@@ -171,7 +173,7 @@ class WriteSQLdataState extends State<QRBillEntry>{
                 child: TextField(
                   controller: amount,
                   decoration: InputDecoration(
-                    labelText: arr.last,
+                    //labelText: arr.last,
                     // hintText: 'widget.barcode',
                     suffixIcon: Icon(Icons.add_chart),
                     border: OutlineInputBorder(
@@ -214,12 +216,12 @@ class WriteSQLdataState extends State<QRBillEntry>{
                               backgroundColor: Color(0xffEE7B23)),
                           onPressed: () { //if button is pressed, setstate sending = true, so that we can show "sending..."
 
-                            // print("barcode--   $barcodeScanRes");
+                            arr.first=fuelconsumption.text;
+                            arr.last=amount.text;
                             setState(() {
                               sending = true;
                             });
                             sendData();
-
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => homepage()));
                           },
