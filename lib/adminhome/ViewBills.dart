@@ -35,7 +35,8 @@ class _HomePageState extends State<HomePage> {
 
   void loaddata() {
     Future.delayed(Duration.zero, () async {
-      var res = await http.post(Uri.parse(dataurl));
+      var res = await http.post(Uri.parse(dataurl),body: {
+      'uid': ls.uid});
       if (res.statusCode == 200) {
         setState(() {
           data = json.decode(res.body);

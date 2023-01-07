@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+// import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:fuelit_app/userhome/QRBillEntry.dart';
 import 'ManualBillEntry.dart';
+import 'ScanPage.dart';
 import 'TransactionTable.dart';
 
 class homepage extends StatelessWidget {
@@ -47,7 +49,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
               padding: EdgeInsets.all(20),
             ),
             onPressed: () async {
-              barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+                barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
                   "#1d1d1d",
                   "HELLO--------", false,
                   ScanMode.QR);
@@ -70,7 +72,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
             //   print("barcode-----   $barcodeScanRes");
             // },
           ),
-        ),
+         ),
         Container(
           margin: EdgeInsets.only(top: 160),
           alignment: Alignment.topCenter,
@@ -109,6 +111,13 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => ManualBillEntry()));
             },
+        //     onPressed: ()  async{
+        //       String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+        //           "#1d1d1d",
+        //           "Cancel", true,
+        //           ScanMode.DEFAULT);
+        //       print("barcode-----   $barcodeScanRes");
+        //     },
           ),
         )
       ],

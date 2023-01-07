@@ -6,8 +6,10 @@ import 'package:fuelit_app/login/SignUp.dart';
 import 'package:http/http.dart' as http;
 import 'package:fuelit_app/adminhome/AdminHomePage.dart';
 
-var ip = "192.168.111.199";
-String uid="R";
+var ip = "192.168.1.74";
+int uid = 0;
+String name = "";
+
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -19,7 +21,7 @@ class LoginScreen extends StatelessWidget {
           primarySwatch: Colors.red, //primary color for theme
         ),
         home: WriteSQLdata() //set the class here
-        );
+    );
   }
 }
 
@@ -34,6 +36,7 @@ class WriteSQLdata extends StatefulWidget {
 }
 
 class WriteSQLdataState extends State<WriteSQLdata> {
+
   TextEditingController email = TextEditingController();
   TextEditingController pass = TextEditingController();
 
@@ -42,7 +45,9 @@ class WriteSQLdataState extends State<WriteSQLdata> {
   late bool error, sending, success, showprogress;
   late String msg, errormsg;
 
+
   void initState() {
+
     errormsg = "";
     error = false;
     showprogress = false;
@@ -50,18 +55,28 @@ class WriteSQLdataState extends State<WriteSQLdata> {
     super.initState();
   }
 
+
   startLogin() async {
+    uid=0;
+    // print("startLogin");
     String phpurl = "http://$ip/fuelit/Login.php"; // url
+
+    // print("phpurl ::::::::::::::::");
 
     var response = await http.post(Uri.parse(phpurl), body: {
       'dbemail': email.text, //get the username text
       'dbpass': pass.text //get password text
     });
+    // print("response ::::::::::::::::");
 
     if (response.statusCode == 200) {
+
+      // print("response 200 ::::::::::::::::");
       print(json.decode(response.body));
       var jsondata = json.decode(response.body);
+      // print(jsondata);
       if (jsondata["error"]) {
+        // print("response error::::::::::::::::");
         setState(() {
           showprogress = false; //don't show progress indicator
           error = true;
@@ -69,35 +84,41 @@ class WriteSQLdataState extends State<WriteSQLdata> {
         });
       } else {
         if (jsondata["success"]) {
+          // print("response success ::::::::::::::::");
           setState(() {
             error = false;
             showprogress = false;
           });
           //save the data returned from server
           //and navigate to home page
-          String nma = jsondata["name"];
-          uid = jsondata["uid"];
-          print(uid);
-          print(nma);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => UserHomePage()),
-          );
+          uid = int.parse(jsondata["uid"]);
+          name = jsondata["name"];
+          print("uid::::::::$uid");
+          print("Name:::::"+name);
+          // Navigator.push(
+          //   context,
+          //   Materialush(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => UserHomePage()),
+          // );
           //user shared preference to save data
         } else {
+          // print("response  else::::::::::::::::");
           showprogress = false; //don't show progress indicator
           error = true;
           errormsg = "Something went wrong.";
         }
       }
     } else {
-      print("Status code !=200");
+      // print("Status code !=200");
       setState(() {
         showprogress = false; //don't show progress indicator
         error = true;
         errormsg = "Error during connecting to server.";
       });
     }
+    login();
+    // print("Erroorrrrrr:::::"+errormsg);
   }
 
   @override
@@ -113,20 +134,18 @@ class WriteSQLdataState extends State<WriteSQLdata> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                height: 60.0,
-              ),
-              SizedBox(
-                  //width: 300,
+                  width: 400,
                   child: Container(
-                height: 300,
-                child: Image.asset(
-                  'assets/logo.png',
-                  fit: BoxFit.fitHeight,
-                ),
-              )),
-              // SizedBox(
-              //   height: 8.0,
-              // ),
+                    width: width,
+                    height: height * 0.45,
+                    child: Image.asset(
+                      'assets/logo.png',
+                      fit: BoxFit.fill,
+                    ),
+                  )),
+              SizedBox(
+                height: 8.0,
+              ),
               SizedBox(
                   width: 300,
                   child: Padding(
@@ -137,16 +156,13 @@ class WriteSQLdataState extends State<WriteSQLdata> {
                         Text(
                           errormsg,
                           style: TextStyle(
-                              fontSize: 15.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.red),
+                              fontSize: 15.0, fontWeight: FontWeight.bold, color: Colors.red),
                         ),
                       ],
                     ),
                   )),
               SizedBox(
                 height: 8.0,
-
               ),
               SizedBox(
                   width: 300,
@@ -211,21 +227,12 @@ class WriteSQLdataState extends State<WriteSQLdata> {
                           setState(() {
                             sending = true;
                           });
-                          // startLogin();
-                          if (uid=='1001') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AdminHomePage()),
-                            );
-                          } else{
-                            startLogin();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => UserHomePage()),
-                            );
-                          }
+                          startLogin();
+                          // name="";
+                          //
+                          // print("Before::::::$uid");
+
+
                         },
                       ),
                     ],
@@ -256,12 +263,22 @@ class WriteSQLdataState extends State<WriteSQLdata> {
     );
   }
 
-  bool adminLogin() {
-    print(email.text);
-    if (email.text == "admin" && pass.text == "1234") {
-      return true;
-    } else {
-      return false;
+  void login() {
+    if(uid == 1001)
+    {
+      // print("After if::::::$uid");
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => AdminHomePage()),
+      );
+    }
+    else if (uid >1001) {
+      // print("Uid in >1001::::::$uid");
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => UserHomePage()),
+      );
     }
   }
 }

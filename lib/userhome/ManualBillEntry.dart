@@ -6,36 +6,38 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:fuelit_app/login/LoginScreen.dart' as ls;
 import 'package:intl/intl.dart';
-
+// import 'package:intl/intl.dart';
 
 class ManualBillEntry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-         theme: ThemeData(
-            primarySwatch:Colors.red, //primary color for theme
-         ),
-         home: WriteSQLdata() //set the class here
-    );
+    return MaterialApp(
+        theme: ThemeData(
+          primarySwatch: Colors.red, //primary color for theme
+        ),
+        home: WriteSQLdata() //set the class here
+        );
   }
 }
 
 ////////////////////////////////////////////////
 ///////////////////////////////////////////////
 
-class WriteSQLdata extends StatefulWidget{
+class WriteSQLdata extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-     return WriteSQLdataState();
+    return WriteSQLdataState();
   }
 }
 
-
-class WriteSQLdataState extends State<WriteSQLdata>{
+class WriteSQLdataState extends State<WriteSQLdata> {
   Validation val = new Validation();
 
-  TextEditingController fuelconsumption= TextEditingController();
+  TextEditingController dateinput = TextEditingController();
+
+  TextEditingController fuelconsumption = TextEditingController();
   TextEditingController amount = TextEditingController();
+
   // text controller for TextField
   String fuelconsumption_val = "";
   String amount_val = "";
@@ -45,59 +47,55 @@ class WriteSQLdataState extends State<WriteSQLdata>{
 
   @override
   void initState() {
-      error = false;
-      sending = false;
-      success = false;
-      msg = "";
-      super.initState();
+    dateinput.text = ""; //set the initial value of text field
+    error = false;
+    sending = false;
+    success = false;
+    msg = "";
+    super.initState();
   }
 
   Future<void> sendData() async {
+    String phpurl = "http://${ls.ip}/fuelit/ManualBillEntry.php";
 
-
-  String phpurl = "http://${ls.ip}/fuelit/ManualBillEntry.php";
-
-     var res = await http.post(Uri.parse(phpurl), body: { 
-          "dbfuelconsumption": fuelconsumption.text,
-          "dbamount": amount.text,
-          "dbdate" : now,
-      }); //sending post request with header data
-     if (res.statusCode == 200) {
-       print("RES.BODY:::" + res.body); //print raw response on console
-       var data = json.decode(res.body); //decoding json to array
-       if(data["error"]){
-          setState(() { //refresh the UI when error is received from server
-             sending = false;
-             error = true;
-             msg = data["message"]; //error message from server
-          });
-       }else{
-         
-         fuelconsumption.text = "";
-         amount.text = "";
-         //after write success, make fields empty
-
-          setState(() {
-             sending = false;
-             success = true; //mark success and refresh UI with setState
-          });
-       }
-       
-    }else{
-       //there is error
+    var res = await http.post(Uri.parse(phpurl), body: {
+      "dbfuelconsumption": fuelconsumption.text,
+      "dbamount": amount.text,
+      "dbdate": dateinput.text,
+      "dbuid": ls.uid.toString(),
+    }); //sending post request with header data
+    if (res.statusCode == 200) {
+      print("RES.BODY:::" + res.body); //print raw response on console
+      var data = json.decode(res.body); //decoding json to array
+      if (data["error"]) {
         setState(() {
-            error = true;
-            msg = "Error during sending data.";
-            sending = false;
-            //mark error and refresh UI with setState
+          //refresh the UI when error is received from server
+          sending = false;
+          error = true;
+          msg = data["message"]; //error message from server
         });
+      } else {
+        fuelconsumption.text = "";
+        amount.text = "";
+        //after write success, make fields empty
+
+        setState(() {
+          sending = false;
+          success = true; //mark success and refresh UI with setState
+        });
+      }
+    } else {
+      //there is error
+      setState(() {
+        error = true;
+        msg = "Error during sending data.";
+        sending = false;
+        //mark error and refresh UI with setState
+      });
+      print("Error message :::::::::::" + msg);
     }
   }
 
-
-
-
- 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -141,7 +139,7 @@ class WriteSQLdataState extends State<WriteSQLdata>{
                     color: Colors.red,
                   ),
                   textAlign: TextAlign.center,
-                  ),
+                ),
               ),
               SizedBox(
                 width: 300,
@@ -149,7 +147,7 @@ class WriteSQLdataState extends State<WriteSQLdata>{
                   controller: fuelconsumption,
                   decoration: InputDecoration(
                     hintText: 'Enter Fuel Consumption',
-                    suffixIcon: Icon(Icons.add),
+                    suffixIcon: Icon(Icons.water_drop),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
@@ -167,7 +165,7 @@ class WriteSQLdataState extends State<WriteSQLdata>{
                     color: Colors.red,
                   ),
                   textAlign: TextAlign.center,
-                  ),
+                ),
               ),
               SizedBox(
                 width: 300,
@@ -175,7 +173,7 @@ class WriteSQLdataState extends State<WriteSQLdata>{
                   controller: amount,
                   decoration: InputDecoration(
                     hintText: 'Enter Amount of Bill',
-                    suffixIcon: Icon(Icons.add_chart),
+                    suffixIcon: Icon(Icons.monetization_on),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
@@ -188,15 +186,42 @@ class WriteSQLdataState extends State<WriteSQLdata>{
               SizedBox(
                 width: 300,
                 child: TextField(
-                  obscureText: true,
+                  controller: dateinput,
+                  //editing controller of this TextField
                   decoration: InputDecoration(
-                    hintText: 'Date & Time',
-                    labelText: now,
-                    suffixIcon: Icon(Icons.timelapse),
+                    suffixIcon: Icon(Icons.calendar_today), //icon of text field
+                    labelText: "Enter Date", //label text of field
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                   ),
+                  readOnly: true,
+                  //set it true, so that user will not able to edit text
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2000),
+                        //DateTime.now() - not to allow to choose before today.
+                        lastDate: DateTime(2101));
+
+                    if (pickedDate != null) {
+                      print(
+                          pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                      String formattedDate =
+                          DateFormat('yyyy-MM-dd').format(pickedDate);
+                      print(
+                          formattedDate); //formatted date output using intl package =>  2021-03-16
+                      //you can implement different kind of Date Format here according to your requirement
+
+                      setState(() {
+                        dateinput.text =
+                            formattedDate; //set output date to TextField value.
+                      });
+                    } else {
+                      print("Date is not selected");
+                    }
+                  },
                 ),
               ),
               SizedBox(
@@ -214,12 +239,13 @@ class WriteSQLdataState extends State<WriteSQLdata>{
                           child: Text('Add Bill'),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xffEE7B23)),
-                          onPressed: () { //if button is pressed, setstate sending = true, so that we can show "sending..."
-                          setState(() {
-                             sending = true;
-                          });
-                          sendData();
-                          
+                          onPressed: () {
+                            //if button is pressed, setstate sending = true, so that we can show "sending..."
+                            setState(() {
+                              sending = true;
+                            });
+                            sendData();
+
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => homepage()));
                           },
@@ -235,22 +261,21 @@ class WriteSQLdataState extends State<WriteSQLdata>{
       ),
     );
   }
-  void validate() async
-  {
-    if(val.isNotNull(fuelconsumption.text))
-      fuelconsumption_val="Email field cannot be empty";
+
+  void validate() async {
+    if (val.isNotNull(fuelconsumption.text))
+      fuelconsumption_val = "Email field cannot be empty";
 
     if (!val.isValidfloat(fuelconsumption.text))
-    fuelconsumption_val="Enter valid value!!!";
-    else fuelconsumption_val="";
+      fuelconsumption_val = "Enter valid value!!!";
+    else
+      fuelconsumption_val = "";
 
-    if(val.isNotNull(amount.text))
-      amount_val="Email field cannot be empty";
+    if (val.isNotNull(amount.text)) amount_val = "Email field cannot be empty";
 
     if (!val.isValidfloat(amount.text))
-    amount_val="Enter valid value!!!";
-    else amount_val="";
-
-
+      amount_val = "Enter valid value!!!";
+    else
+      amount_val = "";
   }
 }
