@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:fuelit_app/adminhome/AdminHomePage.dart';
 
 var ip = "192.168.111.199";
-
+String uid="R";
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -42,9 +42,7 @@ class WriteSQLdataState extends State<WriteSQLdata> {
   late bool error, sending, success, showprogress;
   late String msg, errormsg;
 
-
   void initState() {
-
     errormsg = "";
     error = false;
     showprogress = false;
@@ -52,10 +50,8 @@ class WriteSQLdataState extends State<WriteSQLdata> {
     super.initState();
   }
 
-
   startLogin() async {
     String phpurl = "http://$ip/fuelit/Login.php"; // url
-
 
     var response = await http.post(Uri.parse(phpurl), body: {
       'dbemail': email.text, //get the username text
@@ -63,7 +59,6 @@ class WriteSQLdataState extends State<WriteSQLdata> {
     });
 
     if (response.statusCode == 200) {
-
       print(json.decode(response.body));
       var jsondata = json.decode(response.body);
       if (jsondata["error"]) {
@@ -80,9 +75,10 @@ class WriteSQLdataState extends State<WriteSQLdata> {
           });
           //save the data returned from server
           //and navigate to home page
-          //String uid = jsondata["uid"];
-          String name = jsondata["name"];
-          print(name);
+          String nma = jsondata["name"];
+          uid = jsondata["uid"];
+          print(uid);
+          print(nma);
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => UserHomePage()),
@@ -117,15 +113,17 @@ class WriteSQLdataState extends State<WriteSQLdata> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
+                height: 60.0,
+              ),
+              SizedBox(
                   //width: 300,
                   child: Container(
-                    // width: width,
-                    // height: height * 0.45,
-                    child: Image.asset(
-                      'assets/logo.png',
-                      fit: BoxFit.fill,
-                    ),
-                  )),
+                height: 300,
+                child: Image.asset(
+                  'assets/logo.png',
+                  fit: BoxFit.fitHeight,
+                ),
+              )),
               // SizedBox(
               //   height: 8.0,
               // ),
@@ -139,13 +137,16 @@ class WriteSQLdataState extends State<WriteSQLdata> {
                         Text(
                           errormsg,
                           style: TextStyle(
-                              fontSize: 15.0, fontWeight: FontWeight.bold, color: Colors.red),
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red),
                         ),
                       ],
                     ),
                   )),
               SizedBox(
                 height: 8.0,
+
               ),
               SizedBox(
                   width: 300,
@@ -211,20 +212,20 @@ class WriteSQLdataState extends State<WriteSQLdata> {
                             sending = true;
                           });
                           // startLogin();
-                          if(adminLogin())
-                            {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => AdminHomePage()),
-                              );
-                            }
-                          else
-                            {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => UserHomePage()),
-                              );
-                            }
+                          if (uid=='1001') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AdminHomePage()),
+                            );
+                          } else{
+                            startLogin();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => UserHomePage()),
+                            );
+                          }
                         },
                       ),
                     ],
@@ -257,12 +258,9 @@ class WriteSQLdataState extends State<WriteSQLdata> {
 
   bool adminLogin() {
     print(email.text);
-    if(email.text=="admin" && pass.text=="1234")
-    {
+    if (email.text == "admin" && pass.text == "1234") {
       return true;
-    }
-    else
-    {
+    } else {
       return false;
     }
   }
