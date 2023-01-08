@@ -35,12 +35,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   loaddata() async {
-    print(ls.uid);
-    print("Load data:::::::");
-    // Future.delayed(Duration.zero, () async {
     var res =
         await http.post(Uri.parse(dataurl), body: {'dbuid': ls.uid.toString()});
-    print("Load data 22222 $res");
     if (res.statusCode == 200) {
       setState(() {
         print("200::::::::::::::::::::");
@@ -57,15 +53,6 @@ class _HomePageState extends State<HomePage> {
         error = true;
       });
     }
-    print("before::::::::::");
-    print(data);
-    errormsg = data["errmsg"];
-    print("Errorr::::::::::");
-    print(errormsg);
-    // }
-    // );
-    // we use Future.delayed becuase there is
-    // async function inside it.
   }
 
   @override
@@ -93,36 +80,6 @@ class _HomePageState extends State<HomePage> {
         ));
   }
 
-  // Widget datalist2() {
-  //   Table(
-  //     //if data is loaded then show table
-  //     border: TableBorder.all(width: 1, color: Colors.black45),
-  //
-  //     children: <TableRow>[
-  //       TableRow(
-  //         children: <Widget>[
-  //           Container(
-  //             height: 32,
-  //             color: Colors.green,
-  //           ),
-  //           TableCell(
-  //             verticalAlignment: TableCellVerticalAlignment.top,
-  //             child: Container(
-  //               height: 32,
-  //               width: 32,
-  //               color: Colors.red,
-  //             ),
-  //           ),
-  //           Container(
-  //             height: 64,
-  //             color: Colors.blue,
-  //           ),
-  //         ],
-  //       ),
-  //     ],
-  //   );
-  //
-  // }
 
   Widget datalist() {
     if (data["error"]) {
@@ -141,7 +98,7 @@ class _HomePageState extends State<HomePage> {
             label: Expanded(
               child: Text(
                 'Date',
-                style: TextStyle(fontStyle: FontStyle.italic),
+                style: TextStyle(fontStyle: FontStyle.italic,color: Colors.orange),
               ),
             ),
           ),
@@ -149,7 +106,7 @@ class _HomePageState extends State<HomePage> {
             label: Expanded(
               child: Text(
                 'Fuel Consumption',
-                style: TextStyle(fontStyle: FontStyle.italic),
+                style: TextStyle(fontStyle: FontStyle.italic,color: Colors.orange),
               ),
             ),
           ),
@@ -157,7 +114,7 @@ class _HomePageState extends State<HomePage> {
             label: Expanded(
               child: Text(
                 'Amount',
-                style: TextStyle(fontStyle: FontStyle.italic),
+                style: TextStyle(fontStyle: FontStyle.italic,color: Colors.orange),
               ),
             ),
           ),
