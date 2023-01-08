@@ -13,6 +13,7 @@ class ForgetPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
+        debugShowCheckedModeBanner: false,
          theme: ThemeData(
             primarySwatch:Colors.red, //primary color for theme
          ),
@@ -115,15 +116,20 @@ class WriteSQLdataState extends State<WriteSQLdata>{
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                width: 400,
-                child: Container(
-                  width: width,
-                  height: height * 0.45,
-                  child: Image.asset(
-                    'assets/logo.png',
-                    fit: BoxFit.fill,
-                  ),
-                ),
+                height: 50.0,
+              ),
+              SizedBox(
+                  width: 300,
+                  child: Container(
+                    width: width,
+                    height: height * 0.45,
+                    child: Image.asset(
+                      'assets/logo.png',
+                      fit: BoxFit.fitHeight,
+                    ),
+                  )),
+              SizedBox(
+                height: 8.0,
               ),
               SizedBox(
                 width: 300,

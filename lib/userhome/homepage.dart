@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-// import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:fuelit_app/userhome/QRBillEntry.dart';
 import 'ManualBillEntry.dart';
-// import 'ScanPage.dart';
-import 'package:fuelit_app/login/LoginScreen.dart' as ls;
 
 import 'TransactionTable.dart';
-import 'UserHomePage.dart';
 
 class homepage extends StatelessWidget {
   @override
@@ -28,29 +24,6 @@ class MyNavigationBar extends StatefulWidget {
 
 class _MyNavigationBarState extends State<MyNavigationBar> {
   String barcodeScanRes = "";
-
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     //  floating Action Button using for signout ,
-  //     floatingActionButton: FloatingActionButton(
-  //       onPressed: () {
-  //         ls.uid=0;
-  //         Navigator.push(
-  //           context,
-  //           MaterialPageRoute(
-  //               builder: (context) => UserHomePage()),
-  //         );
-  //       },
-  //       child: Icon(Icons.logout_rounded),
-  //       backgroundColor: Colors.orange,
-  //
-  //     ),
-  //
-  //   );
-  // }
-
 
 
   @override
@@ -81,9 +54,6 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                   "#1d1d1d",
                   "HELLO--------", false,
                   ScanMode.QR);
-              // print("barcode--   $barcodeScanRes");
-              // Text('Scan result : $barcodeScanRes\n',
-              //     style: const TextStyle(fontSize: 20));
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -92,20 +62,13 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                   )
               );
             },
-            // onPressed: ()  async{
-            //   String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-            //       "#1d1d1d",
-            //       "Cancel", true,
-            //       ScanMode.DEFAULT);
-            //   print("barcode-----   $barcodeScanRes");
-            // },
           ),
          ),
         Container(
           margin: EdgeInsets.only(top: 160),
           alignment: Alignment.topCenter,
           child: OutlinedButton(
-              child: Text("Total\nUsage",
+              child: Text("Total\nUsage\n40L",
                   style: TextStyle(fontSize: 20.0, color: Colors.white)),
               style: OutlinedButton.styleFrom(
                 shape: CircleBorder(),
@@ -139,33 +102,9 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => ManualBillEntry()));
             },
-        //     onPressed: ()  async{
-        //       String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-        //           "#1d1d1d",
-        //           "Cancel", true,
-        //           ScanMode.DEFAULT);
-        //       print("barcode-----   $barcodeScanRes");
-        //     },
+
           ),
         ),
-        // Container(
-        //   margin: EdgeInsets.only(top: 160),
-        //   alignment: Alignment.topCenter,
-        //   child: OutlinedButton(
-        //       child: Text("Total\nUsage",
-        //           style: TextStyle(fontSize: 20.0, color: Colors.white)),
-        //       style: OutlinedButton.styleFrom(
-        //         shape: CircleBorder(),
-        //         backgroundColor: Colors.orange,
-        //         padding: EdgeInsets.all(width/15),
-        //       ),
-        //       onPressed: () {
-        //         Navigator.push(
-        //           context,
-        //           MaterialPageRoute(builder: (context) => TransactionTable()),
-        //         );
-        //       }),
-        // ),
       ],
     );
   }

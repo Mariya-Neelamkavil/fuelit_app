@@ -7,13 +7,12 @@ import 'package:http/http.dart' as http;
 import 'package:fuelit_app/login/LoginScreen.dart' as ls;
 import 'package:intl/intl.dart';
 
-import 'UserHomePage.dart';
-// import 'package:intl/intl.dart';
 
 class ManualBillEntry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.red, //primary color for theme
         ),
