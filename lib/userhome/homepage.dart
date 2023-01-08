@@ -4,7 +4,10 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:fuelit_app/userhome/QRBillEntry.dart';
 import 'ManualBillEntry.dart';
 // import 'ScanPage.dart';
+import 'package:fuelit_app/login/LoginScreen.dart' as ls;
+
 import 'TransactionTable.dart';
+import 'UserHomePage.dart';
 
 class homepage extends StatelessWidget {
   @override
@@ -25,6 +28,31 @@ class MyNavigationBar extends StatefulWidget {
 
 class _MyNavigationBarState extends State<MyNavigationBar> {
   String barcodeScanRes = "";
+
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     //  floating Action Button using for signout ,
+  //     floatingActionButton: FloatingActionButton(
+  //       onPressed: () {
+  //         ls.uid=0;
+  //         Navigator.push(
+  //           context,
+  //           MaterialPageRoute(
+  //               builder: (context) => UserHomePage()),
+  //         );
+  //       },
+  //       child: Icon(Icons.logout_rounded),
+  //       backgroundColor: Colors.orange,
+  //
+  //     ),
+  //
+  //   );
+  // }
+
+
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context). size. width ;
@@ -119,7 +147,25 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
         //       print("barcode-----   $barcodeScanRes");
         //     },
           ),
-        )
+        ),
+        // Container(
+        //   margin: EdgeInsets.only(top: 160),
+        //   alignment: Alignment.topCenter,
+        //   child: OutlinedButton(
+        //       child: Text("Total\nUsage",
+        //           style: TextStyle(fontSize: 20.0, color: Colors.white)),
+        //       style: OutlinedButton.styleFrom(
+        //         shape: CircleBorder(),
+        //         backgroundColor: Colors.orange,
+        //         padding: EdgeInsets.all(width/15),
+        //       ),
+        //       onPressed: () {
+        //         Navigator.push(
+        //           context,
+        //           MaterialPageRoute(builder: (context) => TransactionTable()),
+        //         );
+        //       }),
+        // ),
       ],
     );
   }

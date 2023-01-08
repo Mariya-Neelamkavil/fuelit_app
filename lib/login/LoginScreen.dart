@@ -134,13 +134,16 @@ class WriteSQLdataState extends State<WriteSQLdata> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                  width: 400,
+              height: 50.0,
+            ),
+              SizedBox(
+                  width: 300,
                   child: Container(
                     width: width,
                     height: height * 0.45,
                     child: Image.asset(
                       'assets/logo.png',
-                      fit: BoxFit.fill,
+                      fit: BoxFit.fitHeight,
                     ),
                   )),
               SizedBox(

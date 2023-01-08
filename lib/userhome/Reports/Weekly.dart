@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuelit_app/adminhome/ViewBills.dart';
 import 'package:fuelit_app/userhome/UserHomePage.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
@@ -18,11 +19,10 @@ class Weekly extends StatefulWidget {
 
 class _MyHomePageState extends State<Weekly> {
   bool error = false, dataloaded = false;
-  var data,a,b,c;
-  List<NameOne> namelist=[];
-  List<String> x= [];
-  String dataurl =
-      "http://${ls.ip}/fuelit/Report.php"; //PHP script URL
+  var data, a, b, c;
+  List<NameOne> namelist = [];
+  List<String> x = [];
+  String dataurl = "http://${ls.ip}/fuelit/Report.php"; //PHP script URL
 
   @override
   void initState() {
@@ -36,18 +36,17 @@ class _MyHomePageState extends State<Weekly> {
       var res = await http.post(Uri.parse(dataurl));
       if (res.statusCode == 200) {
         setState(() {
-          print("List 1");
           print(res.body);
-          print("List 2");
-          data = json.decode(res.body);
-          print(data);
+          Map<String, dynamic> tempData = jsonDecode(res.body);
+          List<dynamic> apiList = tempData["data"];
+          List<NameOne> tempList = [];
+          apiList.forEach((entitlement) {
+            tempList.add(NameOne(
+                fuel_consumption: entitlement["fuel_consumption"],
+                amount: int.parse(entitlement["amount"])));
+          });
+          namelist = tempList;
           dataloaded = true;
-          print("List 4");
-          namelist=data;
-          print(namelist);
-          // namelist=[NameOne(fuel_consumption: "10L", amount: 1000),
-          //   NameOne(fuel_consumption: "5L", amount: 500)];
-          // print('List 3 $namelist');
         });
       } else {
         //there is error
@@ -57,17 +56,18 @@ class _MyHomePageState extends State<Weekly> {
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => UserHomePage()),
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => UserHomePage()),
+            ),
           ),
-        ),
           title: Text("Reports"), //title of app
           backgroundColor: Colors.orange, //background color of app bar
         ),
@@ -131,7 +131,7 @@ class NameOne {
   factory NameOne.fromJson(Map<dynamic, dynamic> json) {
     return NameOne(
       fuel_consumption: json['fuel_consumption'] as String,
-        amount: json['amount'] as int,
+      amount: json['amount'] as int,
     );
   }
 }

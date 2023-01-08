@@ -6,12 +6,14 @@ class NearestPetrolPump extends StatelessWidget {
   Widget build(BuildContext context) {
     return  MaterialApp(
         theme: ThemeData(
-          primarySwatch:Colors.blueGrey, //primary color for theme
+          brightness: Brightness.light, //primary color for theme
         ),
      debugShowCheckedModeBanner: false,
      home: ElevatedButton(
           onPressed: _launchUrl,
-          child: Text('Go to Google Map'),
+          child: Text('Go to Google Map',style: TextStyle(color: Colors.orange)),
+       style: ElevatedButton.styleFrom(
+           backgroundColor: Colors.white),
         ),
       );
   }

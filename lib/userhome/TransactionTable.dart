@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:fuelit_app/login/LoginScreen.dart' as ls;
-
 import 'homepage.dart';
 
 class TransactionTable extends StatelessWidget {
@@ -39,7 +38,8 @@ class _HomePageState extends State<HomePage> {
     print(ls.uid);
     print("Load data:::::::");
     // Future.delayed(Duration.zero, () async {
-    var res = await http.post(Uri.parse(dataurl), body: {'dbuid': ls.uid.toString()});
+    var res =
+        await http.post(Uri.parse(dataurl), body: {'dbuid': ls.uid.toString()});
     print("Load data 22222 $res");
     if (res.statusCode == 200) {
       setState(() {
@@ -71,14 +71,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => homepage()),
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => homepage()),
+            ),
           ),
-        ),
           title: Text("Transaction Summary"), //title of app
           backgroundColor: Colors.orange, //background color of app bar
         ),
@@ -90,8 +90,45 @@ class _HomePageState extends State<HomePage> {
               : Center(
                   //if data is not loaded then show progress
                   child: CircularProgressIndicator()),
-        ));
+        )
+    );
+
+
+
+
   }
+
+  // Widget datalist2() {
+  //   Table(
+  //     //if data is loaded then show table
+  //     border: TableBorder.all(width: 1, color: Colors.black45),
+  //
+  //     children: <TableRow>[
+  //       TableRow(
+  //         children: <Widget>[
+  //           Container(
+  //             height: 32,
+  //             color: Colors.green,
+  //           ),
+  //           TableCell(
+  //             verticalAlignment: TableCellVerticalAlignment.top,
+  //             child: Container(
+  //               height: 32,
+  //               width: 32,
+  //               color: Colors.red,
+  //             ),
+  //           ),
+  //           Container(
+  //             height: 64,
+  //             color: Colors.blue,
+  //           ),
+  //         ],
+  //       ),
+  //     ],
+  //   );
+  //
+  // }
+
 
   Widget datalist() {
     if (data["error"]) {
@@ -102,11 +139,13 @@ class _HomePageState extends State<HomePage> {
         return NameOne.fromJSON(i);
       })); //prasing data list to model
 
-      return Table(
-        //if data is loaded then show table
-        border: TableBorder.all(width: 1, color: Colors.black45),
 
-        children: namelist.map((nameone) {
+      return Table(
+      //if data is loaded then show table
+      border: TableBorder.all(width: 1, color: Colors.black45),
+
+
+    children: namelist.map((nameone) {
           return TableRow(children: [
             //return table row in every loop
             //table cells inside table row
