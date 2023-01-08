@@ -42,6 +42,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
               padding: EdgeInsets.all(25),
             ),
             onPressed: () {
+              print("Clicked:::::::::::::");
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => ViewBills()),

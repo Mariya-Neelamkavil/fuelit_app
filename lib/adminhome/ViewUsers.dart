@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:fuelit_app/adminhome/AdminHomePage.dart';
 import 'package:http/http.dart' as http;
 import 'package:fuelit_app/login/LoginScreen.dart' as ls;
 
@@ -33,8 +34,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  void loaddata() {
-    Future.delayed(Duration.zero, () async {
+  loaddata() async {
       var res = await http.post(Uri.parse(dataurl));
       if (res.statusCode == 200) {
         setState(() {
@@ -50,7 +50,6 @@ class _HomePageState extends State<HomePage> {
           error = true;
         });
       }
-    });
     // we use Future.delayed becuase there is
     // async function inside it.
   }
@@ -59,20 +58,25 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("User Details"), //title of app
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AdminHomePage()),
+            ),
+          ),
+          title: Text("User List"), //title of app
           backgroundColor: Colors.orange, //background color of app bar
         ),
         body: Container(
           padding: EdgeInsets.all(15),
           //check if data is loaded, if loaded then show datalist on child
           child: dataloaded
-              ? datalist()
+              ? Container(width: double.infinity, child: datalist())
               : Center(
             //if data is not loaded then show progress
               child: CircularProgressIndicator()),
-        )
-
-    );
+        ));
   }
 
   Widget datalist() {
@@ -84,28 +88,43 @@ class _HomePageState extends State<HomePage> {
         return NameOne.fromJSON(i);
       })); //prasing data list to model
 
-      return Table(
-
+      return DataTable(
         //if data is loaded then show table
-        border: TableBorder.all(width: 2, color: Colors.orange),
-
-        children : namelist.map((nameone) {
-
-          return TableRow(children: [
-            //return table row in every loop
-            //table cells inside table row
-            TableCell(
-                child: Padding(
-                    padding: EdgeInsets.all(5),
-                    child: Text(nameone.Name))),
-            TableCell(
-                child: Padding(
-                    padding: EdgeInsets.all(5),
-                    child: Text(nameone.Mobile_no))),
-            TableCell(
-                child: Padding(
-                    padding: EdgeInsets.all(5), child: Text(nameone.Email_ID)))
-          ]);
+        border: TableBorder.all(width: 1, color: Colors.black45),
+        columns: const <DataColumn>[
+          DataColumn(
+            label: Expanded(
+              child: Text(
+                'User Name',
+                style: TextStyle(fontStyle: FontStyle.italic,color: Colors.orange)
+              ),
+            ),
+          ),
+          DataColumn(
+            label: Expanded(
+              child: Text(
+                'Mobile Number',
+                style: TextStyle(fontStyle: FontStyle.italic,color: Colors.orange),
+              ),
+            ),
+          ),
+          DataColumn(
+            label: Expanded(
+              child: Text(
+                'E-mail ID',
+                style: TextStyle(fontStyle: FontStyle.italic,color: Colors.orange),
+              ),
+            ),
+          ),
+        ],
+        rows: namelist.map((nameone) {
+          return DataRow(
+            cells: <DataCell>[
+              DataCell(Text(nameone.Name)),
+              DataCell(Text(nameone.Mobile_no)),
+              DataCell(Text(nameone.Email_ID)),
+            ],
+          );
         }).toList(),
       );
     }
