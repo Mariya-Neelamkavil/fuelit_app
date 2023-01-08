@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuelit_app/userhome/NearestPetrolPump.dart';
-import 'package:fuelit_app/userhome/Reports/Weekly.dart';
+import 'package:fuelit_app/userhome/Reports/Daily.dart';
 import 'package:fuelit_app/userhome/TransactionTable.dart';
 import 'package:fuelit_app/userhome/homepage.dart';
 
@@ -16,7 +16,7 @@ class _HomePageState extends State<UserHomePage> {
 
   final pages = [
     homepage(),
-    Weekly(),
+    Daily(),
     TransactionTable(),
     NearestPetrolPump(),
   ];

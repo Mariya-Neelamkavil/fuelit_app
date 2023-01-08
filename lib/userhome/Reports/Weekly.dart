@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:fuelit_app/adminhome/ViewBills.dart';
+import 'package:fuelit_app/userhome/Reports/Daily.dart';
 import 'package:fuelit_app/userhome/UserHomePage.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:fuelit_app/login/LoginScreen.dart' as ls;
+import 'package:fuelit_app/userhome/Reports/Monthly.dart';
+import 'package:fuelit_app/userhome/homepage.dart' as hp;
 
-import '../homepage.dart';
 
 class Weekly extends StatefulWidget {
   // ignore: prefer_const_constructors_in_immutables
@@ -26,6 +26,7 @@ class _MyHomePageState extends State<Weekly> {
 
   @override
   void initState() {
+    hp.MyNavigationBar();
     loaddata();
     //calling loading of data
     super.initState();
@@ -43,6 +44,7 @@ class _MyHomePageState extends State<Weekly> {
           apiList.forEach((entitlement) {
             tempList.add(NameOne(
                 fuel_consumption: entitlement["fuel_consumption"],
+                date: entitlement["date"],
                 amount: int.parse(entitlement["amount"])));
           });
           namelist = tempList;
@@ -86,52 +88,112 @@ class _MyHomePageState extends State<Weekly> {
                     dataSource: namelist,
                     xValueMapper: (NameOne sales, _) => sales.fuel_consumption,
                     yValueMapper: (NameOne sales, _) => sales.amount,
-                    name: 'Fuel Consumption',
+                    name: 'Cost',
+                    color: Colors.orange,
                     // Enable data label
-                    dataLabelSettings: DataLabelSettings(isVisible: true))
+                    dataLabelSettings: DataLabelSettings(isVisible: true)
+                    )
               ]),
-          // Expanded(
-          //   child: Padding(
-          //     padding: const EdgeInsets.all(8.0),
-          //     //Initialize the spark charts widget
-          //     child: SfSparkLineChart.custom(
-          //       //Enable the trackball
-          //       trackball: SparkChartTrackball(
-          //           activationMode: SparkChartActivationMode.tap),
-          //       //Enable marker
-          //       marker: SparkChartMarker(
-          //           displayMode: SparkChartMarkerDisplayMode.all),
-          //       //Enable data label
-          //       labelDisplayMode: SparkChartLabelDisplayMode.all,
-          //       xValueMapper: (int index) => data[index].fuel_consumption,
-          //       yValueMapper: (int index) => data[index].amount,
-          //       dataCount: 5,
-          //     ),
-          //   ),
-          // )
-        ]));
+          SizedBox(
+            height: 20,
+          ),
+          Table(
+            border: TableBorder.all(
+                color: Colors.orange,
+                width: 2),
+            children: [
+              TableRow( children: [
+                Column(children:[Text('Date', style: TextStyle(fontSize: 15.0))]),
+                Column(children:[Text('Fuel Consumption', style: TextStyle(fontSize: 15.0))]),
+                Column(children:[Text('Amount', style: TextStyle(fontSize: 15.0))]),
+              ]),
+            ],
+          ),
+    Table(
+    //if data is loaded then show table
+    border: TableBorder.all(width: 1, color: Colors.black12),
+
+
+    children: namelist.map((nameone) {
+    return TableRow(children: [
+
+    //return table row in every loop
+    //table cells inside table row
+    TableCell(
+          child: Padding(
+              padding: EdgeInsets.all(5), child: Text(nameone.date.toString()))),
+    TableCell(
+    child: Padding(
+    padding: EdgeInsets.all(5), child: Text(nameone.fuel_consumption))),
+    TableCell(
+    child: Padding(
+    padding: EdgeInsets.all(5), child: Text(nameone.amount.toString())))
+    ]);
+    }).toList(),
+        ),
+          SizedBox(
+            height: 10,
+          ),
+          Table(
+            // border: TableBorder.all(
+            //     color: Colors.orange,
+            //     width: 0),
+            children: [
+              TableRow( children: [
+                Column(children:[Text('    ', style: TextStyle(fontSize: 20.0))]),
+                Column(children:[TextButton(
+    onPressed: () {
+    Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => Daily()),
+    );
+    },
+    child:Text('Daily', style: TextStyle(fontSize: 20.0,color: Colors.orange,
+                  fontWeight: FontWeight.bold,)))]),
+                Column(children:[TextButton(
+    onPressed: () {
+    Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => Weekly()),
+    );
+    },
+    child:Text('Weekly', style: TextStyle(fontSize: 20.0,color: Colors.orange,
+                  fontWeight: FontWeight.bold,)))]),
+                Column(children:[TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Monthly()),
+                      );
+                    },
+                    child:Text('Monthly', style: TextStyle(fontSize: 20.0,color: Colors.orange,
+                  fontWeight: FontWeight.bold,)))]),
+                Column(children:[Text('    ', style: TextStyle(fontSize: 20.0))]),
+              ]),
+            ],
+          ),
+    ],)
+
+    );
   }
 }
 
 class NameOne {
   String fuel_consumption;
   int amount;
+  String date;
 
   NameOne({
     required this.fuel_consumption,
     required this.amount,
+    required this.date,
   });
 
-  //constructor
-
-  // factory NameOne.fromJSON(Map<String, dynamic> json) {
-  //   return NameOne(
-  //       fuel_consumption: json["fuel_consumption"], amount: json["amount"]);
-  // }
   factory NameOne.fromJson(Map<dynamic, dynamic> json) {
     return NameOne(
       fuel_consumption: json['fuel_consumption'] as String,
       amount: json['amount'] as int,
+      date: json['date'] as String,
     );
   }
 }

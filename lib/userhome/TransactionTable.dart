@@ -90,44 +90,9 @@ class _HomePageState extends State<HomePage> {
               : Center(
                   //if data is not loaded then show progress
                   child: CircularProgressIndicator()),
-        )
+        ),
     );
-
-
-
-
   }
-
-  // Widget datalist2() {
-  //   Table(
-  //     //if data is loaded then show table
-  //     border: TableBorder.all(width: 1, color: Colors.black45),
-  //
-  //     children: <TableRow>[
-  //       TableRow(
-  //         children: <Widget>[
-  //           Container(
-  //             height: 32,
-  //             color: Colors.green,
-  //           ),
-  //           TableCell(
-  //             verticalAlignment: TableCellVerticalAlignment.top,
-  //             child: Container(
-  //               height: 32,
-  //               width: 32,
-  //               color: Colors.red,
-  //             ),
-  //           ),
-  //           Container(
-  //             height: 64,
-  //             color: Colors.blue,
-  //           ),
-  //         ],
-  //       ),
-  //     ],
-  //   );
-  //
-  // }
 
 
   Widget datalist() {
@@ -138,14 +103,11 @@ class _HomePageState extends State<HomePage> {
       List<NameOne> namelist = List<NameOne>.from(data["data"].map((i) {
         return NameOne.fromJSON(i);
       })); //prasing data list to model
-
-
-      return Table(
-      //if data is loaded then show table
-      border: TableBorder.all(width: 1, color: Colors.black45),
-
-
-    children: namelist.map((nameone) {
+      return
+        Table(
+        //if data is loaded then show table
+        border: TableBorder.all(width: 2, color: Colors.orange),
+        children: namelist.map((nameone) {
           return TableRow(children: [
             //return table row in every loop
             //table cells inside table row
@@ -159,7 +121,8 @@ class _HomePageState extends State<HomePage> {
             TableCell(
                 child: Padding(
                     padding: EdgeInsets.all(5), child: Text(nameone.amount)))
-          ]);
+          ],
+          );
         }).toList(),
       );
     }

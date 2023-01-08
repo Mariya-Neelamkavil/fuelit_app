@@ -11,7 +11,7 @@ class NearestPetrolPump extends StatelessWidget {
      debugShowCheckedModeBanner: false,
      home: ElevatedButton(
           onPressed: _launchUrl,
-          child: Text('Go to Google Map',style: TextStyle(color: Colors.orange)),
+          child: Text('Go to Google Map',style: TextStyle(color: Colors.black,fontSize: 30)),
        style: ElevatedButton.styleFrom(
            backgroundColor: Colors.white),
         ),
