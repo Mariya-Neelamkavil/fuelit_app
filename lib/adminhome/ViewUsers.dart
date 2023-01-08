@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Transaction Summary"), //title of app
+          title: Text("User Details"), //title of app
           backgroundColor: Colors.orange, //background color of app bar
         ),
         body: Container(
@@ -70,7 +70,9 @@ class _HomePageState extends State<HomePage> {
               : Center(
             //if data is not loaded then show progress
               child: CircularProgressIndicator()),
-        ));
+        )
+
+    );
   }
 
   Widget datalist() {
@@ -85,7 +87,7 @@ class _HomePageState extends State<HomePage> {
       return Table(
 
         //if data is loaded then show table
-        border: TableBorder.all(width: 1, color: Colors.black45),
+        border: TableBorder.all(width: 2, color: Colors.orange),
 
         children : namelist.map((nameone) {
 
