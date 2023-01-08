@@ -19,6 +19,7 @@ class QRBillEntry extends StatefulWidget{
 
 class WriteSQLdataState extends State<QRBillEntry>{
   Validation val = new Validation();
+  TextEditingController dateinput = TextEditingController();
   TextEditingController fuelconsumption= TextEditingController();
   TextEditingController amount = TextEditingController();
   // text controller for TextField
@@ -26,12 +27,13 @@ class WriteSQLdataState extends State<QRBillEntry>{
 
   String fuelconsumption_val = "";
   String amount_val = "";
-  String now = DateFormat("yyyy-MM-dd").format(DateTime.now());
+  // String now = DateFormat("yyyy-MM-dd").format(DateTime.now());
   late bool error, sending, success;
   late String msg;
 
   @override
   void initState() {
+    dateinput.text = "";
     error = false;
     sending = false;
     success = false;
@@ -53,7 +55,8 @@ class WriteSQLdataState extends State<QRBillEntry>{
     var res = await http.post(Uri.parse(phpurl), body: {
       "dbfuelconsumption": arr.first,
       "dbamount": arr.last,
-      "dbdate" : now,
+      "dbdate": dateinput.text,
+      "dbuid": ls.uid.toString(),
     }); //sending post request with header data
 
     if (res.statusCode == 200) {
@@ -188,15 +191,42 @@ class WriteSQLdataState extends State<QRBillEntry>{
               SizedBox(
                 width: 300,
                 child: TextField(
-                  obscureText: true,
+                  controller: dateinput,
+                  //editing controller of this TextField
                   decoration: InputDecoration(
-                    hintText: 'Date & Time',
-                    labelText: now,
-                    suffixIcon: Icon(Icons.timelapse),
+                    suffixIcon: Icon(Icons.calendar_today), //icon of text field
+                    labelText: "Enter Date", //label text of field
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                   ),
+                  readOnly: true,
+                  //set it true, so that user will not able to edit text
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2000),
+                        //DateTime.now() - not to allow to choose before today.
+                        lastDate: DateTime(2101));
+
+                    if (pickedDate != null) {
+                      print(
+                          pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                      String formattedDate =
+                      DateFormat('yyyy-MM-dd').format(pickedDate);
+                      print(
+                          formattedDate); //formatted date output using intl package =>  2021-03-16
+                      //you can implement different kind of Date Format here according to your requirement
+
+                      setState(() {
+                        dateinput.text =
+                            formattedDate; //set output date to TextField value.
+                      });
+                    } else {
+                      print("Date is not selected");
+                    }
+                  },
                 ),
               ),
               SizedBox(
@@ -221,7 +251,7 @@ class WriteSQLdataState extends State<QRBillEntry>{
                             setState(() {
                               sending = true;
                             });
-                            sendData();
+                            validate();
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => homepage()));
                           },
@@ -237,22 +267,31 @@ class WriteSQLdataState extends State<QRBillEntry>{
       ),
     );
   }
-  void validate() async
+  void validate()
   {
-    if(val.isNotNull(fuelconsumption.text))
-      fuelconsumption_val="Email field cannot be empty";
-
-    if (!val.isValidfloat(fuelconsumption.text))
-      fuelconsumption_val="Enter valid value!!!";
+    int x =0;
+    if(val.isNotNull(fuelconsumption.text)) {
+      x=1;
+      fuelconsumption_val = "Email field cannot be empty";
+    }
+    if (!val.isValidfloat(fuelconsumption.text)) {
+      x=1;
+      fuelconsumption_val = "Enter valid value!!!";
+    }
     else fuelconsumption_val="";
 
-    if(val.isNotNull(amount.text))
-      amount_val="Email field cannot be empty";
-
-    if (!val.isValidfloat(amount.text))
-      amount_val="Enter valid value!!!";
+    if(val.isNotNull(amount.text)) {
+      x=1;
+      amount_val = "Email field cannot be empty";
+    }
+    if (!val.isValidfloat(amount.text)) {
+      x=1;
+      amount_val = "Enter valid value!!!";
+    }
     else amount_val="";
 
-
+    if(x==0){
+      sendData();
+    }
   }
 }

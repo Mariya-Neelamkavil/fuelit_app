@@ -72,7 +72,7 @@ class WriteSQLdataState extends State<WriteSQLdata> {
     if (response.statusCode == 200) {
 
       // print("response 200 ::::::::::::::::");
-      print(json.decode(response.body));
+      // print(json.decode(response.body));
       var jsondata = json.decode(response.body);
       // print(jsondata);
       if (jsondata["error"]) {

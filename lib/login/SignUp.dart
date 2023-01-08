@@ -249,7 +249,7 @@ class WriteSQLdataState extends State<WriteSQLdata> {
               ),
               SizedBox(
                 height: 20.0,
-                width: 300,
+                width: 700,
                 child: Text(
                   pass_val,
                   style: TextStyle(
@@ -276,7 +276,7 @@ class WriteSQLdataState extends State<WriteSQLdata> {
               ),
               SizedBox(
                 height: 20.0,
-                width: 300,
+                width: 500,
                 child: Text(
                   pass_conf_val,
                   style: TextStyle(
@@ -317,12 +317,11 @@ class WriteSQLdataState extends State<WriteSQLdata> {
                             backgroundColor: Color(0xffEE7B23)),
                         onPressed: () {
 
-                          validate();
                           //if button is pressed, setstate sending = true, so that we can show "sending..."
                           setState(() {
                             sending = true;
                           });
-                          sendData();
+                          validate();
                           // Navigator.push(
                           //   context,
                           //   MaterialPageRoute(
@@ -356,40 +355,51 @@ class WriteSQLdataState extends State<WriteSQLdata> {
     // ignore: dead_code
     );
   }
-  void validate() async
+  void validate()
   {
-    if (!val.isValidEmail(email.text))
-      email_val="Enter valid Email ID!!!";
+    int x =0;
+    if (!val.isValidEmail(email.text)) {
+      x=1;
+      email_val = "Enter valid Email ID!!!";
+    }
     else email_val="";
-    if(val.isNotNull(email.text))
-      email_val="Email field cannot be empty";
 
-    if (!val.isValidPassword(pass.text))
-      pass_val="Enter valid Password!!!";
+    if (!val.isValidPassword(pass.text)) {
+      x=1;
+      pass_val = "Password must be 8 characters with letters, numbers and symbols";
+    }
     else pass_val="";
-    if(val.isNotNull(pass.text))
-      pass_val="Password field cannot be empty";
 
-    if (!val.isValidPhone(mobile.text))
-       mobile_val="Enter valid Phone Number!!!";
+    if (!val.isValidPhone(mobile.text)) {
+      x=1;
+      mobile_val = "Enter valid Phone Number!!!";
+    }
     else mobile_val="";
-    if(val.isNotNull(mobile.text))
-      mobile_val="Phone number field cannot be empty";
-
-    if (val.isNotNull(pass_conf.text))
-      pass_conf_val="Confirm Password field must not be empty!!!";
+    if (val.isNotNull(pass_conf.text)) {
+      x=1;
+      pass_conf_val = "Confirm Password field must not be empty!!!";
+    }
     else pass_conf_val="";
 
-    if (uname.text.isEmpty)
-      uname_val="Username field must not be empty!!!";
+    if (uname.text.isEmpty) {
+      x=1;
+      uname_val = "Username field must not be empty!!!";
+    }
     else uname_val="";
 
-    if (fname.text.isEmpty)
-      fname_val="Full name must not be empty!!!";
+    if (fname.text.isEmpty) {
+      x=1;
+      fname_val = "Full name must not be empty!!!";
+    }
     else fname_val="";
 
-    if(pass.text!=pass_conf.text)
-      pass_conf_val="Password and confirm password should be same";
+    if(pass.text!=pass_conf.text) {
+      x = 1;
+      pass_conf_val = "Password and confirm password should be same";
+    }
+    if(x==0){
+      sendData();
+    }
   }
 }
 

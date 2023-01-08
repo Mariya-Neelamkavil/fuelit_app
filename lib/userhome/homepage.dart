@@ -3,7 +3,7 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 // import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:fuelit_app/userhome/QRBillEntry.dart';
 import 'ManualBillEntry.dart';
-import 'ScanPage.dart';
+// import 'ScanPage.dart';
 import 'TransactionTable.dart';
 
 class homepage extends StatelessWidget {

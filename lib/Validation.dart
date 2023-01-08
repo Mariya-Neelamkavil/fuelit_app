@@ -6,7 +6,6 @@ class Validation
   }
 
 
-
   bool  isValidName(name){
     final nameRegExp = new RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
     return nameRegExp.hasMatch(name);
@@ -23,7 +22,7 @@ class Validation
   }
   
   bool  isValidPhone(phone){
-    final phoneRegExp = RegExp(r"^\+?0[0-9]{10}$");
+    final phoneRegExp = RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)');
     return phoneRegExp.hasMatch(phone);
     }
 

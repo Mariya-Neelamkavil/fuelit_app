@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fuelit_app/userhome/UserHomePage.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:fuelit_app/login/LoginScreen.dart' as ls;
+
+import '../homepage.dart';
 
 class Weekly extends StatefulWidget {
   // ignore: prefer_const_constructors_in_immutables
@@ -57,7 +60,14 @@ class _MyHomePageState extends State<Weekly> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+        appBar: AppBar(leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => UserHomePage()),
+          ),
+        ),
           title: Text("Reports"), //title of app
           backgroundColor: Colors.orange, //background color of app bar
         ),
