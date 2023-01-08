@@ -86,16 +86,11 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.all(15),
           //check if data is loaded, if loaded then show datalist on child
           child: dataloaded
-              ? datalist()
+              ? Container(width: double.infinity, child: datalist())
               : Center(
                   //if data is not loaded then show progress
                   child: CircularProgressIndicator()),
-        )
-    );
-
-
-
-
+        ));
   }
 
   // Widget datalist2() {
@@ -129,7 +124,6 @@ class _HomePageState extends State<HomePage> {
   //
   // }
 
-
   Widget datalist() {
     if (data["error"]) {
       return Text(data["errmsg"]);
@@ -139,27 +133,43 @@ class _HomePageState extends State<HomePage> {
         return NameOne.fromJSON(i);
       })); //prasing data list to model
 
-
-      return Table(
-      //if data is loaded then show table
-      border: TableBorder.all(width: 1, color: Colors.black45),
-
-
-    children: namelist.map((nameone) {
-          return TableRow(children: [
-            //return table row in every loop
-            //table cells inside table row
-            TableCell(
-                child: Padding(
-                    padding: EdgeInsets.all(5), child: Text(nameone.date))),
-            TableCell(
-                child: Padding(
-                    padding: EdgeInsets.all(5),
-                    child: Text(nameone.fuel_consumption))),
-            TableCell(
-                child: Padding(
-                    padding: EdgeInsets.all(5), child: Text(nameone.amount)))
-          ]);
+      return DataTable(
+        //if data is loaded then show table
+        border: TableBorder.all(width: 1, color: Colors.black45),
+        columns: const <DataColumn>[
+          DataColumn(
+            label: Expanded(
+              child: Text(
+                'Date',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ),
+          ),
+          DataColumn(
+            label: Expanded(
+              child: Text(
+                'Fuel Consumption',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ),
+          ),
+          DataColumn(
+            label: Expanded(
+              child: Text(
+                'Amount',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ),
+          ),
+        ],
+        rows: namelist.map((nameone) {
+          return DataRow(
+            cells: <DataCell>[
+              DataCell(Text(nameone.date)),
+              DataCell(Text(nameone.fuel_consumption)),
+              DataCell(Text(nameone.amount)),
+            ],
+          );
         }).toList(),
       );
     }

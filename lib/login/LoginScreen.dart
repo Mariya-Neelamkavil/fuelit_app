@@ -13,6 +13,7 @@ String name = "";
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -230,6 +231,7 @@ class WriteSQLdataState extends State<WriteSQLdata> {
                           setState(() {
                             sending = true;
                           });
+                          print("hi clicked");
                           startLogin();
                           // name="";
                           //
