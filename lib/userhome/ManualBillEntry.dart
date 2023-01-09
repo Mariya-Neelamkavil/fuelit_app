@@ -269,9 +269,13 @@ class WriteSQLdataState extends State<WriteSQLdata> {
                             //validate();
                             if(validate())
                               {
+                                sendData();
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => homepage()));
                               }
+                            else{
+                              validate();
+                            }
 
                           },
                         ),
@@ -290,38 +294,30 @@ class WriteSQLdataState extends State<WriteSQLdata> {
   bool validate()
   {
     int x =0;
-    if(val.isNotNull(fuelconsumption.text)) {
+    if(fuelconsumption.text.isEmpty) {
       x=1;
       fuelconsumption_val = "Fuel consumption cannot be empty";
     }
-    if (!val.isValidfloat(fuelconsumption.text)) {
-      x=1;
-      fuelconsumption_val = "Enter valid value!!!";
-    }
-    else {
+    else{
       fuelconsumption_val="";
     }
-    if(val.isNotNull(amount.text)) {
+    if(amount.text.isEmpty) {
       x=1;
       amount_val = "Amount cannot be empty";
     }
-    if (!val.isValidfloat(amount.text)) {
-      x=1;
-      amount_val = "Enter valid value!!!";
-    }
-    else {
+    else{
       amount_val="";
     }
-    if(!val.isNotNull(dateinput.text)) {
+    if(dateinput.text.isEmpty) {
       x=1;
       date_val = "Date cannot be empty";
     }
     else{
-      x=0;
+      //x=0;
       date_val="";
     }
     if(x==0){
-      sendData();
+      //sendData();
       return true;
     }
     else
