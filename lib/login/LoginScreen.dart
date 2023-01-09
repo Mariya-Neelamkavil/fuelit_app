@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:fuelit_app/Validation.dart';
 import 'package:fuelit_app/userhome/UserHomePage.dart';
 import 'ForgetPassword.dart';
 import 'package:fuelit_app/login/SignUp.dart';
 import 'package:http/http.dart' as http;
 import 'package:fuelit_app/adminhome/AdminHomePage.dart';
 
-var ip = "192.168.1.74";
+var ip = "192.168.122.199";
 int uid = 0;
 String name = "";
 
@@ -37,10 +38,11 @@ class WriteSQLdata extends StatefulWidget {
 }
 
 class WriteSQLdataState extends State<WriteSQLdata> {
-
+  Validation val = new Validation();
   TextEditingController email = TextEditingController();
   TextEditingController pass = TextEditingController();
-
+  String email_val = "";
+  String pass_val = "";
   // text controller for TextField
 
   late bool error, sending, success, showprogress;
@@ -166,7 +168,17 @@ class WriteSQLdataState extends State<WriteSQLdata> {
                     ),
                   )),
               SizedBox(
-                height: 8.0,
+                height: 20.0,
+                width: 300,
+                child: Text(
+                  email_val,
+                  style: TextStyle(
+                    fontFamily: 'Arial',
+                    fontSize: 13,
+                    color: Colors.red,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
               SizedBox(
                   width: 300,
@@ -182,6 +194,16 @@ class WriteSQLdataState extends State<WriteSQLdata> {
                   )),
               SizedBox(
                 height: 20.0,
+                width: 300,
+                child: Text(
+                  pass_val,
+                  style: TextStyle(
+                    fontFamily: 'Arial',
+                    fontSize: 13,
+                    color: Colors.red,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
               SizedBox(
                   width: 300,
@@ -232,7 +254,12 @@ class WriteSQLdataState extends State<WriteSQLdata> {
                             sending = true;
                           });
                           print("hi clicked");
-                          startLogin();
+                          if(validate()){
+                            startLogin();
+                          }
+                          else{
+                            validate();
+                          }
                           // name="";
                           //
                           // print("Before::::::$uid");
@@ -284,6 +311,33 @@ class WriteSQLdataState extends State<WriteSQLdata> {
         MaterialPageRoute(
             builder: (context) => UserHomePage()),
       );
+    }
+  }
+  bool validate()
+  {
+    int x =0;
+    if(email.text.isEmpty) {
+      x=1;
+      email_val = "Email field cannot be empty";
+    }
+    else{
+      //x=0;
+      email_val="";
+    }
+    if(pass.text.isEmpty) {
+      x=1;
+      pass_val = "Password field cannot be empty";
+    }
+    else{
+      //x=0;
+      pass_val="";
+    }
+    if(x==0){
+      return true;
+    }
+    else
+    {
+      return false;
     }
   }
 }

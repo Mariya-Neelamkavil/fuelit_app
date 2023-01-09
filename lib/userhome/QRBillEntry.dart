@@ -40,8 +40,9 @@ class WriteSQLdataState extends State<QRBillEntry>{
     success = false;
     msg = "";
     super.initState();
-    fuelconsumption.text=arr.first;
-    amount.text=arr.last;
+    fuelconsumption.text=arr[0];
+    amount.text=arr[1];
+    dateinput.text=arr[2];
   }
 
   Future<void> sendData() async {
@@ -54,9 +55,9 @@ class WriteSQLdataState extends State<QRBillEntry>{
 
 
     var res = await http.post(Uri.parse(phpurl), body: {
-      "dbfuelconsumption": arr.first,
-      "dbamount": arr.last,
-      "dbdate": dateinput.text,
+      "dbfuelconsumption": arr[0],
+      "dbamount": arr[1],
+      "dbdate": arr[2],
       "dbuid": ls.uid.toString(),
     }); //sending post request with header data
 
@@ -73,6 +74,7 @@ class WriteSQLdataState extends State<QRBillEntry>{
 
         fuelconsumption.text = "";
         amount.text = "";
+        dateinput.text="";
         //after write success, make fields empty
 
         setState(() {
@@ -146,6 +148,7 @@ class WriteSQLdataState extends State<QRBillEntry>{
                 width: 300,
                 child: TextField(
                   controller: fuelconsumption,
+                  readOnly: true,
                   decoration: InputDecoration(
                    // labelText: arr.first,
 
@@ -176,6 +179,7 @@ class WriteSQLdataState extends State<QRBillEntry>{
                 width: 300,
                 child: TextField(
                   controller: amount,
+                  readOnly: true,
                   decoration: InputDecoration(
                     //labelText: arr.last,
                     // hintText: 'widget.barcode',
@@ -259,14 +263,21 @@ class WriteSQLdataState extends State<QRBillEntry>{
                               backgroundColor: Color(0xffEE7B23)),
                           onPressed: () { //if button is pressed, setstate sending = true, so that we can show "sending..."
 
-                            arr.first=fuelconsumption.text;
-                            arr.last=amount.text;
+                            arr[0]=fuelconsumption.text;
+                            arr[1]=amount.text;
+                            arr[2]=dateinput.text;
                             setState(() {
                               sending = true;
                             });
-                            validate();
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => homepage()));
+                            if(validate())
+                            {
+                              sendData();
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => homepage()));
+                            }
+                            else{
+                              validate();
+                            }
                           },
                         ),
                       )
@@ -280,39 +291,39 @@ class WriteSQLdataState extends State<QRBillEntry>{
       ),
     );
   }
-  void validate()
+
+  bool validate()
   {
     int x =0;
-    if(val.isNotNull(fuelconsumption.text)) {
+    if(fuelconsumption.text.isEmpty) {
       x=1;
       fuelconsumption_val = "Fuel consumption cannot be empty";
     }
-    if (!val.isValidfloat(fuelconsumption.text)) {
-      x=1;
-      fuelconsumption_val = "Enter valid value!!!";
+    else{
+      fuelconsumption_val="";
     }
-    else fuelconsumption_val="";
-
-    if(val.isNotNull(amount.text)) {
+    if(amount.text.isEmpty) {
       x=1;
       amount_val = "Amount cannot be empty";
     }
-    if (!val.isValidfloat(amount.text)) {
-      x=1;
-      amount_val = "Enter valid value!!!";
+    else{
+      amount_val="";
     }
-    else amount_val="";
-    if(!val.isNotNull(dateinput.text)) {
+    if(dateinput.text.isEmpty) {
       x=1;
       date_val = "Date cannot be empty";
     }
-    else
-    {
-      x=0;
+    else{
+      //x=0;
       date_val="";
     }
     if(x==0){
-      sendData();
+      //sendData();
+      return true;
+    }
+    else
+    {
+      return false;
     }
   }
 }

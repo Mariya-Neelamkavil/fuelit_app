@@ -80,7 +80,7 @@ class WriteSQLdataState extends State<WriteSQLdata> {
     if (res.statusCode == 200) {
       print("RES.BODY:::${res.body}"); //print raw response on console
       var data = json.decode(res.body); //decoding json to array
-      if (data["error"]) {
+      if (data["error"] || res.body=="Email already exists in database.") {
         setState(() {
           //refresh the UI when error is received from server
           sending = false;
@@ -96,6 +96,7 @@ class WriteSQLdataState extends State<WriteSQLdata> {
         //after write success, make fields empty
 
         setState(() {
+          //showAlertDialog(context);
           sending = false;
           success = true; //mark success and refresh UI with setState
         });
@@ -316,17 +317,18 @@ class WriteSQLdataState extends State<WriteSQLdata> {
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Color(0xffEE7B23)),
                         onPressed: () {
-
-                          //if button is pressed, setstate sending = true, so that we can show "sending..."
                           setState(() {
                             sending = true;
                           });
-                          validate();
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => LoginScreen()),
-                          // );
+                          if(validate())
+                            {
+                              print("Validate:::::::::::::::");
+                              sendData();
+                              showAlertDialog(context);
+                            }
+                          else{
+                            validate();
+                          }
                         },
                       ),
                     ],
@@ -355,51 +357,106 @@ class WriteSQLdataState extends State<WriteSQLdata> {
     // ignore: dead_code
     );
   }
-  void validate()
+  bool validate()
   {
     int x =0;
     if (!val.isValidEmail(email.text)) {
       x=1;
       email_val = "Enter valid Email ID!!!";
     }
-    else email_val="";
+    else
+      email_val="";
 
-    if (!val.isValidPassword(pass.text)) {
-      x=1;
-      pass_val = "Password must be 8 characters with letters, numbers and symbols";
-    }
-    else pass_val="";
+    // if (!val.isValidPassword(pass.text)) {
+    //   x=1;
+    //   pass_val = "Password must be 8 characters with letters, numbers and symbols";
+    // }
+    // else
+    //   pass_val="";
 
     if (!val.isValidPhone(mobile.text)) {
       x=1;
       mobile_val = "Enter valid Phone Number!!!";
     }
     else mobile_val="";
-    if (val.isNotNull(pass_conf.text)) {
+    if (!val.isNotNull(pass_conf.text)) {
       x=1;
       pass_conf_val = "Confirm Password field must not be empty!!!";
     }
-    else pass_conf_val="";
-
+    else{
+      //x=0;
+      pass_conf_val="";
+    }
     if (uname.text.isEmpty) {
       x=1;
       uname_val = "Username field must not be empty!!!";
+    }else{
+      //x=0;
+      uname_val="";
     }
-    else uname_val="";
-
     if (fname.text.isEmpty) {
       x=1;
       fname_val = "Full name must not be empty!!!";
     }
-    else fname_val="";
-
+    else{
+      //x=0;
+      fname_val="";
+    }
+    if(pass.text.isEmpty) {
+      x=1;
+      pass_val = "Password must not be empty!!!";
+    }
+    else{
+  //x=0;
+      pass_val="";
+  }
+    if(pass_conf.text.isEmpty) {
+      x=1;
+      pass_conf_val = "Confirm Password must not be empty!!!";
+    }
+    else{
+      //x=0;
+      pass_conf_val="";
+    }
     if(pass.text!=pass_conf.text) {
       x = 1;
       pass_conf_val = "Password and confirm password should be same";
     }
-    if(x==0){
-      sendData();
+    else{
+      //x=0;
+      pass_conf_val="";
     }
+    print("x::::::::::::: $x");
+    if(x==0){
+      //sendData();
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+  void showAlertDialog(BuildContext mainContext) {
+
+    showDialog(
+      barrierDismissible: false,
+      context: mainContext,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Sign Up"),
+          content: Text("User registered successfully"),
+          actions: [
+            ElevatedButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.pop(context, true);
+                Navigator.push(mainContext,
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
+              },
+            )
+          ],
+        );
+      },
+    );
   }
 }
 
