@@ -42,6 +42,7 @@ class WriteSQLdataState extends State<WriteSQLdata> {
   // text controller for TextField
   String fuelconsumption_val = "";
   String amount_val = "";
+  String date_val="";
   // String now = DateFormat("yyyy-MM-dd").format(DateTime.now());
   late bool error, sending, success;
   late String msg;
@@ -194,6 +195,16 @@ class WriteSQLdataState extends State<WriteSQLdata> {
               ),
               SizedBox(
                 height: 20.0,
+                width: 300,
+                child: Text(
+                  date_val,
+                  style: TextStyle(
+                    fontFamily: 'Arial',
+                    fontSize: 13,
+                    color: Colors.red,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
               SizedBox(
                 width: 300,
@@ -225,7 +236,6 @@ class WriteSQLdataState extends State<WriteSQLdata> {
                       print(
                           formattedDate); //formatted date output using intl package =>  2021-03-16
                       //you can implement different kind of Date Format here according to your requirement
-
                       setState(() {
                         dateinput.text =
                             formattedDate; //set output date to TextField value.
@@ -256,10 +266,13 @@ class WriteSQLdataState extends State<WriteSQLdata> {
                             setState(() {
                               sending = true;
                             });
-                            validate();
+                            //validate();
+                            if(validate())
+                              {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => homepage()));
+                              }
 
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => homepage()));
                           },
                         ),
                       )
@@ -274,31 +287,46 @@ class WriteSQLdataState extends State<WriteSQLdata> {
     );
   }
 
-  void validate()
+  bool validate()
   {
     int x =0;
     if(val.isNotNull(fuelconsumption.text)) {
       x=1;
-      fuelconsumption_val = "Email field cannot be empty";
+      fuelconsumption_val = "Fuel consumption cannot be empty";
     }
     if (!val.isValidfloat(fuelconsumption.text)) {
       x=1;
       fuelconsumption_val = "Enter valid value!!!";
     }
-    else fuelconsumption_val="";
-
+    else {
+      fuelconsumption_val="";
+    }
     if(val.isNotNull(amount.text)) {
       x=1;
-      amount_val = "Email field cannot be empty";
+      amount_val = "Amount cannot be empty";
     }
     if (!val.isValidfloat(amount.text)) {
       x=1;
       amount_val = "Enter valid value!!!";
     }
-    else amount_val="";
-
+    else {
+      amount_val="";
+    }
+    if(!val.isNotNull(dateinput.text)) {
+      x=1;
+      date_val = "Date cannot be empty";
+    }
+    else{
+      x=0;
+      date_val="";
+    }
     if(x==0){
       sendData();
+      return true;
     }
+    else
+      {
+        return false;
+      }
   }
 }
