@@ -3,7 +3,6 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "fuelit";
-$table = "registration"; // lets create a table named Employees.
 $conn = new mysqli($servername, $username, $password, $dbname);
  // Check Connection
 if($conn->connect_error){
@@ -15,9 +14,9 @@ $name=$_POST['dbfname'];
 $dbmobile=$_POST['dbmobile'];
 $dbemail=$_POST['dbemail'];
 $dbuname=$_POST['dbuname'];
-$dbpass=$_POST['dbpass'];
+$dbpass=md5($_POST['dbpass']);
 $sql = "INSERT INTO registration (Name,Mobile_no,Email_ID,User_Name,Password)
-VALUES ('$dbfname','$dbmobile','$dbemail','$dbuname','$md5($dbpass)')";
+VALUES ('$dbfname','$dbmobile','$dbemail','$dbuname','$dbpass')";
 
 if ($conn->query($sql) === TRUE) {
   echo "New record created successfully";

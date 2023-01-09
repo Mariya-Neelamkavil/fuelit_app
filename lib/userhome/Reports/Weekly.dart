@@ -34,7 +34,8 @@ class _MyHomePageState extends State<Weekly> {
 
   void loaddata() {
     Future.delayed(Duration.zero, () async {
-      var res = await http.post(Uri.parse(dataurl));
+      var res = await http.post(Uri.parse(dataurl), body: {'dbuid': ls.uid.toString()//get password text
+      });
       if (res.statusCode == 200) {
         setState(() {
           print(res.body);
