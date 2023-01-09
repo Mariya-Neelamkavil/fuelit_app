@@ -21,7 +21,7 @@ class _MyHomePageState extends State<Daily> {
   var data, a, b, c;
   List<NameOne> namelist = [];
   List<String> x = [];
-  String dataurl = "http://${ls.ip}/fuelit/Report.php"; //PHP script URL
+  String dataurl = "http://${ls.ip}/fuelit/Reportdaily.php"; //PHP script URL
 
   @override
   void initState() {
@@ -32,7 +32,8 @@ class _MyHomePageState extends State<Daily> {
 
   void loaddata() {
     Future.delayed(Duration.zero, () async {
-      var res = await http.post(Uri.parse(dataurl));
+      var res = await http.post(Uri.parse(dataurl), body: {'dbuid': ls.uid.toString()//get password text
+      });
       if (res.statusCode == 200) {
         setState(() {
           print(res.body);

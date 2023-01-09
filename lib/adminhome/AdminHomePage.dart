@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fuelit_app/adminhome/ViewBills.dart';
 import 'package:fuelit_app/adminhome/ViewUsers.dart';
+import 'package:fuelit_app/login/LoginScreen.dart';
 
 class AdminHomePage extends StatelessWidget {
   @override
@@ -24,8 +25,19 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   Widget build(BuildContext context) {
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
+        // AppBar(
+        //   leading: IconButton(
+        //     icon: Icon(Icons.logout_rounded, color: Colors.white),
+        //     onPressed: () => Navigator.push(
+        //       context,
+        //       MaterialPageRoute(builder: (context) => LoginScreen()),
+        //     ),
+        //   ),
+        //   title: Text(" Admin Home Page"), //title of app
+        //   backgroundColor: Colors.orange, //background color of app bar
+        // ),
         Container(
           margin: EdgeInsets.only(top: 00),
           alignment: Alignment.center,
@@ -42,7 +54,6 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
               padding: EdgeInsets.all(25),
             ),
             onPressed: () {
-              print("Clicked:::::::::::::");
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => ViewBills()),

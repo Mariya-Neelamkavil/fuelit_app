@@ -3,7 +3,6 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "fuelit";
-$table = "bill_information"; // lets create a table named Employees.
 $conn = new mysqli($servername, $username, $password, $dbname);
  // Check Connection
 if($conn->connect_error){
@@ -13,8 +12,9 @@ return;
 
 $dbfuelconsumption=$_POST['dbfuelconsumption'];
 $dbamount=$_POST['dbamount'];
-$sql = "INSERT INTO bill_information (fuel_consumption,amount)
-VALUES ('$dbfuelconsumption','$dbamount')";
+$uid=$_POST['dbuid'];
+$date=$_POST['dbdate'];
+$sql = "INSERT INTO `bill_information`(`fuel_consumption`, `amount`, `user_id`, `date`) VALUES ('$dbfuelconsumption','$dbamount','$uid','$date') ";
 
 if ($conn->query($sql) === TRUE) {
   echo "New record created successfully";

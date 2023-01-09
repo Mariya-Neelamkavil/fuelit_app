@@ -52,6 +52,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                   color: Colors.orange,
                 ),
                 onPressed: () {
+                  uid=0;
                   Navigator.of(context, rootNavigator: true).push(
                       MaterialPageRoute(builder: (context) => LoginScreen()));
                 },
