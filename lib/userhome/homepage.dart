@@ -83,7 +83,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
           alignment: Alignment.center,
           children: [
             Positioned(
-              top: 0,
+              top: 30,
               right: 0,
               child: IconButton(
                 icon: Icon(
