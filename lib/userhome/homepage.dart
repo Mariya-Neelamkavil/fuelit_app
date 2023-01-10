@@ -1,15 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 // import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:fuelit_app/userhome/QRBillEntry.dart';
 import 'ManualBillEntry.dart';
+import 'package:http/http.dart' as http;
+import 'package:fuelit_app/login/LoginScreen.dart' as ls;
 
 // import 'ScanPage.dart';
 import 'package:fuelit_app/login/LoginScreen.dart';
 
 import 'TransactionTable.dart';
-import 'UserHomePage.dart';
 
 class homepage extends StatelessWidget {
   @override
@@ -30,6 +33,43 @@ class MyNavigationBar extends StatefulWidget {
 
 class _MyNavigationBarState extends State<MyNavigationBar> {
   String barcodeScanRes = "";
+  bool error = false, dataloaded = false;
+  String sum="";
+  var data, errormsg = "";
+  String dataurl =
+      "http://${ls.ip}/fuelit/FuelUsage.php"; //PHP script URL
+
+  @override
+  void initState() {
+    loaddata();
+    //calling loading of data
+    super.initState();
+    print("Init state");
+  }
+
+  loaddata() async {
+    print("Loading data");
+    var res =
+    await http.post(Uri.parse(dataurl), body: {'dbuid': ls.uid.toString()});
+    if (res.statusCode == 200) {
+      setState(() {
+
+        data = json.decode(res.body);
+        dataloaded = true;
+        // we set dataloaded to true,
+        // so that we can build a list only
+        // on data load
+      });
+      sum = data["sum"];
+      print("Sum:::::::"+sum);
+      print("Data ----- "+data["sum"]);
+    } else {
+      //there is error
+      setState(() {
+        error = true;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,8 +123,8 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
                   },
                 ),
                 OutlinedButton(
-                    child: Text("Total\nUsage",
-                        style: TextStyle(fontSize: 20.0, color: Colors.white)),
+                    child: Text("Total\nCost\n$sum",
+                        style: TextStyle(fontSize: 20.0, color: Colors.white,fontStyle: FontStyle.italic)),
                     style: OutlinedButton.styleFrom(
                       shape: CircleBorder(),
                       backgroundColor: Colors.orange,
